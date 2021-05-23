@@ -59,5 +59,9 @@ namespace StoreBL
         {
             return _repo.UpdateLocation(location);
         }
+        public void DeleteLocation(Location location)
+        {
+            _repo.DeleteLocation(location);
+        }
     }
 }

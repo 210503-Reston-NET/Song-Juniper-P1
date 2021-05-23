@@ -90,16 +90,22 @@ namespace StoreWebUI.Controllers
         // GET: LocationController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(new LocationVM(_locationBL.FindLocationByID(id)));
         }
 
         // POST: LocationController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, LocationVM locationVM)
         {
             try
             {
+                _locationBL.DeleteLocation(new Location
+                {
+                    Id = locationVM.Id,
+                    Name = locationVM.Name,
+                    Address = locationVM.Address
+                });
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -55,6 +55,12 @@ namespace StoreDL
             return updated;
         }
 
+        public void DeleteLocation(Location location)
+        {
+            _context.Locations.Remove(location);
+            _context.SaveChanges();
+        }
+
         public List<Inventory> GetLocationInventory(int locationId)
         {
             return _context.Inventories.Where(inventory => inventory.LocationId == locationId)

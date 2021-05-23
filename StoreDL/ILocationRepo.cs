@@ -18,5 +18,6 @@ namespace StoreDL
         public List<Inventory> GetLocationInventory(int locationId);
         public Inventory AddInventory(Inventory inventory);
         public Inventory UpdateInventoryItem(Inventory inventory);
+        public void DeleteLocation(Location location);
     }
 }
