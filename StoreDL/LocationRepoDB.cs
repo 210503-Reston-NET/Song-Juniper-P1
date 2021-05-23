@@ -5,7 +5,7 @@ using StoreModels;
 
 namespace StoreDL
 {
-    public class LocationRepoDB
+    public class LocationRepoDB : ILocationRepo
     {
         private WssDBContext _context;
         public LocationRepoDB(WssDBContext context)

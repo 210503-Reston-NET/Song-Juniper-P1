@@ -6,7 +6,7 @@ using StoreModels;
 
 namespace StoreDL
 {
-    public class CustomerRepoDB
+    public class CustomerRepoDB : ICustomerRepo
     {
         private WssDBContext _context;
         public CustomerRepoDB(WssDBContext context)

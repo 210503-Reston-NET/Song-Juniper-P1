@@ -6,7 +6,7 @@ using StoreModels;
 
 namespace StoreDL
 {
-    public class OrderRepoDB
+    public class OrderRepoDB : IOrderRepo
     {
         private WssDBContext _context;
         public OrderRepoDB(WssDBContext context)
@@ -75,34 +75,7 @@ namespace StoreDL
                 .FirstOrDefault(order => order.Id == orderId);
             return found;
         }
-/// <summary>
-/// This method is for adding a new product to an open order
-/// </summary>
-/// <param name="item"></param>
-/// <returns></returns>
-        public Order AddItemToOrder(LineItem item)
-        {
-            _context.LineItems.Add(item);
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
-            return GetOrderById(item.OrderId);
-        }
 
-/// <summary>
-/// this is for changing quantities of an item already in the cart
-/// </summary>
-/// <param name="item"></param>
-/// <returns></returns>
-        public Order UpdateItemToOrder(LineItem item)
-        {
-            LineItem toUpdate = _context.LineItems
-            .FirstOrDefault(it => it.Id == item.Id);
-            toUpdate.Quantity = item.Quantity;
-
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
-            return GetOrderById(item.OrderId);
-        }
         public Order CreateOrder(Order order)
         {
             Order added = _context.Orders

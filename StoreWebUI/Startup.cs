@@ -27,6 +27,12 @@ namespace StoreWebUI
         {
             services.AddControllersWithViews();
             services.AddDbContext<WssDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("WssDB")));
+            services.AddScoped<ICustomerRepo, CustomerRepoDB>();
+            services.AddScoped<ILocationRepo, LocationRepoDB>();
+            services.AddScoped<IProductRepo, ProductRepoDB>();
+            services.AddScoped<IOrderRepo, OrderRepoDB>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

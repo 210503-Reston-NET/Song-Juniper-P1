@@ -23,20 +23,13 @@ namespace StoreModels
         public string Name { get; set; }
         public string Address { get; set; }
 
-        public List<Inventory> Inventory { get; set; }
+        public List<Inventory> Inventories { get; set; }
 
         public List<Order> Orders { get; set; }
 
         public override string ToString()
         {
             return $"Name: {this.Name} \nAddress: {this.Address}";
-        }
-
-        // override object.Equals
-        public bool Equals(Location loc)
-        {    
-            if(loc == null) return false;
-            return this.Name == loc.Name && this.Address == loc.Address;
         }
     }
 }
