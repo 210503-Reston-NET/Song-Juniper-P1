@@ -54,5 +54,10 @@ namespace StoreBL
         {
             return _repo.UpdateInventoryItem(inventory);
         }
+
+        public Location UpdateLocation(Location location)
+        {
+            return _repo.UpdateLocation(location);
+        }
     }
 }

@@ -13,6 +13,8 @@ namespace StoreDL
         public Location GetLocationById(int id);
         public Location GetLocationByName(string name);
         public Location AddNewLocation(Location location);
+
+        public Location UpdateLocation(Location location);
         public List<Inventory> GetLocationInventory(int locationId);
         public Inventory AddInventory(Inventory inventory);
         public Inventory UpdateInventoryItem(Inventory inventory);

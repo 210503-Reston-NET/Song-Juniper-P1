@@ -48,6 +48,13 @@ namespace StoreDL
             return locToAdd;
         }
 
+        public Location UpdateLocation(Location location)
+        {
+            Location updated = _context.Locations.Update(location).Entity;
+            _context.SaveChanges();
+            return updated;
+        }
+
         public List<Inventory> GetLocationInventory(int locationId)
         {
             return _context.Inventories.Where(inventory => inventory.LocationId == locationId)

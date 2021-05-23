@@ -16,5 +16,7 @@ namespace StoreBL
         public List<Inventory> GetLocationInventory(int locId);
         public Inventory AddInventory(Inventory inventory);
         public Inventory UpdateInventoryItem(Inventory inventory);
+
+        public Location UpdateLocation(Location location);
     }
 }
