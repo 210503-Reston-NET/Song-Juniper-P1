@@ -4,21 +4,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StoreBL;
+using StoreModels;
+using StoreWebUI.Models;
 
 namespace StoreWebUI.Controllers
 {
     public class LocationController : Controller
     {
+        private ILocationBL _locationBL;
+        public LocationController(ILocationBL locationBL)
+        {
+            _locationBL = locationBL;
+        }
         // GET: LocationController
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: LocationController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(
+                _locationBL.GetAllLocations()
+                .Select(location => new LocationVM(location))
+                .ToList()
+                );
         }
 
         // GET: LocationController/Create
@@ -30,10 +36,18 @@ namespace StoreWebUI.Controllers
         // POST: LocationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(LocationVM locationVM)
         {
             try
             {
+                if(ModelState.IsValid)
+                {
+                    _locationBL.AddNewLocation(new Location
+                    {
+                        Name = locationVM.Name,
+                        Address = locationVM.Address,
+                    });
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

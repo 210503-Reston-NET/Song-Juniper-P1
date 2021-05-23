@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StoreBL;
 using StoreDL;
 
 namespace StoreWebUI
@@ -31,7 +32,10 @@ namespace StoreWebUI
             services.AddScoped<ILocationRepo, LocationRepoDB>();
             services.AddScoped<IProductRepo, ProductRepoDB>();
             services.AddScoped<IOrderRepo, OrderRepoDB>();
-
+            services.AddScoped<ICustomerBL, CustomerBL>();
+            services.AddScoped<ILocationBL, LocationBL>();
+            services.AddScoped<IOrderBL, OrderBL>();
+            services.AddScoped<IProductBL, ProductBL>();
 
         }
 

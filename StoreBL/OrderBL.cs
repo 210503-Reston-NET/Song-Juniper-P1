@@ -4,11 +4,11 @@ using StoreModels;
 
 namespace StoreBL
 {
-    public class OrderBL
+    public class OrderBL : IOrderBL
     {
-        private OrderRepoDB _repo;
+        private IOrderRepo _repo;
 
-        public OrderBL(OrderRepoDB repo)
+        public OrderBL(IOrderRepo repo)
         {
             _repo = repo;
         }
@@ -16,16 +16,6 @@ namespace StoreBL
         public Order GetOpenOrder(int customerId, int locationId)
         {
             return _repo.GetOpenOrder(customerId, locationId);
-        }
-
-        public Order AddItemToOrder(LineItem item)
-        {
-            return _repo.AddItemToOrder(item);
-        }
-
-        public Order UpdateItemToOrder(LineItem item)
-        {
-            return _repo.UpdateItemToOrder(item);
         }
 
         public Order CreateOrder (Order order)

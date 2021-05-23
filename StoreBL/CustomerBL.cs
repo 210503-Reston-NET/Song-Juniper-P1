@@ -5,10 +5,10 @@ using StoreModels;
 
 namespace StoreBL
 {
-    public class CustomerBL
+    public class CustomerBL : ICustomerBL
     {
-        private CustomerRepoDB _repo;
-        public CustomerBL(CustomerRepoDB repo)
+        private ICustomerRepo _repo;
+        public CustomerBL(ICustomerRepo repo)
         {
             _repo = repo;
         }

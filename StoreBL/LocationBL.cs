@@ -5,10 +5,10 @@ using StoreModels;
 
 namespace StoreBL
 {
-    public class LocationBL
+    public class LocationBL : ILocationBL
     {
-        private LocationRepoDB _repo;
-        public LocationBL(LocationRepoDB repo)
+        private ILocationRepo _repo;
+        public LocationBL(ILocationRepo repo)
         {
             _repo = repo;
         }
