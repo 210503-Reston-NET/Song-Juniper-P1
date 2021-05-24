@@ -18,6 +18,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Inventories[0].Quantity)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +32,7 @@
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td>
-                    @Html.ActionLink("Update Quantity", "Update", new { id = item.Id})
+                    @Html.ActionLink("Update Quantity", "UpdateInventory", new { id = item.Id})
                 </td>
             </tr>
         }

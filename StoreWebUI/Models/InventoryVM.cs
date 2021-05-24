@@ -12,6 +12,15 @@ namespace StoreWebUI.Models
     public class InventoryVM
     {
         public InventoryVM() { }
+
+        public InventoryVM(Inventory inventory)
+        {
+            this.Id = inventory.Id;
+            this.ProductId = inventory.ProductId;
+            this.LocationId = inventory.LocationId;
+            this.Product = inventory.Product;
+            this.Quantity = inventory.Quantity;
+        }
         public int Id { get; set; }
         public Product Product { get; set; }
         [DisplayName("Product")]

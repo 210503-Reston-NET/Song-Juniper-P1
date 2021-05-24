@@ -65,7 +65,7 @@ namespace StoreWebUI.Controllers
             return View(new LocationVM(_locationBL.FindLocationByID(id)));
         }
 
-        // POST: LocationController/Edit/5
+        // PUT: LocationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, LocationVM locationVM)
@@ -156,6 +156,7 @@ namespace StoreWebUI.Controllers
             return View(newInventory);
         }
 
+        // POST: LocationController/AddInventory/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddInventory(int id, InventoryVM inventoryVM)
@@ -176,6 +177,40 @@ namespace StoreWebUI.Controllers
             catch
             {
                 return AddInventory(id);
+            }
+        }
+
+        /// <summary>
+        /// GET: LocationController/UpdateInventory/5
+        /// </summary>
+        /// <param name="id">id of inventory to be updated</param>
+        /// <returns></returns>
+        public ActionResult UpdateInventory(int id)
+        {
+            return View(new InventoryVM(_locationBL.GetInventoryById(id)));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateInventory(int id, InventoryVM inventoryVM)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _locationBL.UpdateInventoryItem(new Inventory {
+                        Id = inventoryVM.Id,
+                        ProductId = inventoryVM.ProductId,
+                        LocationId = inventoryVM.LocationId,
+                        Quantity = inventoryVM.Quantity
+                    });
+                    return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId});
+                }
+                return UpdateInventory(id);
+            }
+            catch
+            {
+                return UpdateInventory(id);
             }
         }
     }

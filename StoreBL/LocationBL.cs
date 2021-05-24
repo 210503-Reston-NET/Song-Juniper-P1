@@ -83,6 +83,16 @@ namespace StoreBL
         {
             return _repo.UpdateInventoryItem(inventory);
         }
+
+        /// <summary>
+        /// Finds inventory by id
+        /// </summary>
+        /// <param name="id">inventory obj id</param>
+        /// <returns>inventory obj</returns>
+        public Inventory GetInventoryById(int id)
+        {
+            return _repo.GetInventoryById(id);
+        }
         /// <summary>
         /// calls repo method to update location details (ie, name, address, etc)
         /// </summary>
