@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using StoreBL;
 using StoreModels;
 using StoreWebUI.Models;
@@ -13,9 +14,11 @@ namespace StoreWebUI.Controllers
     public class LocationController : Controller
     {
         private ILocationBL _locationBL;
-        public LocationController(ILocationBL locationBL)
+        private IProductBL _productBL;
+        public LocationController(ILocationBL locationBL, IProductBL productBL)
         {
             _locationBL = locationBL;
+            _productBL = productBL;
         }
         // GET: LocationController
         public ActionResult Index()
@@ -111,6 +114,67 @@ namespace StoreWebUI.Controllers
             catch
             {
                 return View();
+            }
+        }
+        
+        // GET: LocationController/Inventory/5
+        public ActionResult Inventory(int id)
+        {
+            LocationVM location = new LocationVM(_locationBL.FindLocationByID(id));
+            location.Inventories = _locationBL.GetLocationInventory(id);
+            return View(location);
+        }
+
+        // GET: LocationController/AddInventory/5
+        public ActionResult AddInventory(int id)
+        {
+            //first, get the current inventory of the store, and just pluck the produt id's so we can compare them later
+            List<int> currentInventoryProductId = _locationBL.GetLocationInventory(id).Select(item => item.Product.Id).ToList();
+            //and initialize the new inventoryVM instance
+            InventoryVM newInventory = new InventoryVM();
+            newInventory.LocationId = id;
+
+            //And then initialize the product options
+            newInventory.ProductOptions = new List<SelectListItem>();
+
+            //then, grab all products so we can fill out the select by looping over the products and inserting it to the product options list
+            List <Product> allProducts= _productBL.GetAllProducts();
+            foreach(Product prod in allProducts)
+            {
+                //Only add it to the option if it's not already in the inventory
+                //if(currentInventoryProductId.FirstOrDefault(id => id == prod.Id) == -1)
+                //{
+                SelectListItem listItem = new SelectListItem
+                {
+                    Text = prod.Name,
+                    Value = prod.Id.ToString()
+                };
+                newInventory.ProductOptions.Add(listItem);
+                //}
+            }
+            return View(newInventory);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddInventory(int id, InventoryVM inventoryVM)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _locationBL.AddInventory(new Inventory {
+                        ProductId = inventoryVM.ProductId,
+                        LocationId = id,
+                        Quantity = inventoryVM.Quantity
+                    }); ;
+                    return RedirectToAction(nameof(Index));
+                }
+                return AddInventory(id);
+            }
+            catch
+            {
+                return AddInventory(id);
             }
         }
     }

@@ -25,5 +25,7 @@ namespace StoreWebUI.Models
         
         [Required]
         public string Address { get; set; }
+
+        public List<Inventory> Inventories { get; set; }
     }
 }

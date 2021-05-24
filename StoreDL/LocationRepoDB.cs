@@ -62,7 +62,12 @@ namespace StoreDL
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
         }
-
+        /// <summary>
+        /// Gets all inventory items associated to a location by id
+        /// Also includes the product detail
+        /// </summary>
+        /// <param name="locationId">id of the location</param>
+        /// <returns>List of inventory items</returns>
         public List<Inventory> GetLocationInventory(int locationId)
         {
             return _context.Inventories.Where(inventory => inventory.LocationId == locationId)
