@@ -39,5 +39,18 @@ namespace StoreDL
 
             return prodToAdd;
         }
+
+        public Product UpdateProduct(Product product)
+        {
+            Product toUpdate = _context.Products.Update(product).Entity;
+            _context.SaveChanges();
+            return toUpdate;
+        }
+
+        public void DeleteProduct(Product product)
+        {
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+        }
     }
 }

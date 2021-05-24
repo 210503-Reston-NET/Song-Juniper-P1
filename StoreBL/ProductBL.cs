@@ -55,5 +55,15 @@ namespace StoreBL
         {
             return _repo.GetProductById(id);
         }
+
+        public Product UpdateProduct(Product product)
+        {
+            return _repo.UpdateProduct(product);
+        }
+
+        public void DeleteProduct(Product product)
+        {
+            _repo.DeleteProduct(product);
+        }
     }
 }

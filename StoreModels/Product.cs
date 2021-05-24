@@ -47,6 +47,10 @@ namespace StoreModels
         {
             this.Id = id;
         }
+        public Product(int id)
+        {
+            this.Id = id;
+        }
 
         public Product(){ }
 

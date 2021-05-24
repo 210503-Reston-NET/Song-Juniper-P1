@@ -13,6 +13,7 @@ namespace StoreBL
         public List<Product> GetAllProducts();
         public Product FindProductByName(string name);
         public Product FindProductById(int id);
-
+        public Product UpdateProduct(Product product);
+        public void DeleteProduct(Product product);
     }
 }

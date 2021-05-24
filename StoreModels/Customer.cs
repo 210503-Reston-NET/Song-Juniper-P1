@@ -26,6 +26,12 @@ namespace StoreModels
         {
             this.Orders = orders;
         }
+
+        public Customer (int id)
+        {
+            this.Id = id;
+        }
+
         public string Name 
         {
             get { return _name; }

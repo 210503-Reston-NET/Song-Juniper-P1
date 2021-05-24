@@ -28,6 +28,13 @@ namespace StoreWebUI.Controllers
                 );
         }
 
+        // GET: ProductController/Details/5
+        //Profile Details view...
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
+
         // GET: ProductController/Create
         public ActionResult Create()
         {
@@ -62,17 +69,28 @@ namespace StoreWebUI.Controllers
         // GET: ProductController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(new ProductVM(_productBL.FindProductById(id)));
         }
 
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, ProductVM productVM)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _productBL.UpdateProduct(new Product
+                    {
+                        Id = productVM.Id,
+                        Name = productVM.Name,
+                        Description = productVM.Description,
+                        Price = productVM.Price,
+                        Category = productVM.Category
+                    });
+                }
+                 return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -83,21 +101,22 @@ namespace StoreWebUI.Controllers
         // GET: ProductController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(new ProductVM(_productBL.FindProductById(id)));
         }
 
         // POST: ProductController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, ProductVM productVM)
         {
             try
             {
+                _productBL.DeleteProduct(new Product(productVM.Id));
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(new ProductVM(_productBL.FindProductById(id)));
             }
         }
     }
