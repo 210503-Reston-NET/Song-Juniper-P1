@@ -40,7 +40,7 @@ namespace StoreModels
         public List<LineItem> LineItems { get; set; }
 
         public bool Closed { get; set; }
-        public double Total { get; set; }
+        public decimal Total { get; set; }
 
         public override string ToString()
         {
@@ -54,8 +54,8 @@ namespace StoreModels
 
         public void UpdateTotal()
         {
-            if(this.LineItems is null) this.Total = 0.0;
-            double total = 0.0;
+            if(this.LineItems is null) this.Total = new decimal();
+            decimal total = new decimal();
             foreach(LineItem item in this.LineItems)
             {
                 total += item.Product.Price * item.Quantity;

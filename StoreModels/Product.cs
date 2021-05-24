@@ -6,7 +6,7 @@ namespace StoreModels
     public class Product
     {
         private string _name;
-        private double _price;
+        private decimal _price;
         public int Id { get; set; }
         public string Name
         {
@@ -21,7 +21,7 @@ namespace StoreModels
             }
         }
         public string Description { get; set; }
-        public double Price
+        public decimal Price
         {
             get { return _price; }
             set
@@ -35,7 +35,7 @@ namespace StoreModels
         }
         public string Category { get; set; }
 
-        public Product(string name, string desc, double price, string cat)
+        public Product(string name, string desc, decimal price, string cat)
         {
             this.Name = name;
             this.Description = desc;
@@ -43,7 +43,7 @@ namespace StoreModels
             this.Category = cat;
         }
 
-        public Product(int id, string name, string desc, double price, string cat) : this (name, desc, price, cat)
+        public Product(int id, string name, string desc, decimal price, string cat) : this (name, desc, price, cat)
         {
             this.Id = id;
         }
