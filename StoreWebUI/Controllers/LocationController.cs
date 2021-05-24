@@ -142,15 +142,16 @@ namespace StoreWebUI.Controllers
             foreach(Product prod in allProducts)
             {
                 //Only add it to the option if it's not already in the inventory
-                //if(currentInventoryProductId.FirstOrDefault(id => id == prod.Id) == -1)
-                //{
-                SelectListItem listItem = new SelectListItem
-                {
-                    Text = prod.Name,
-                    Value = prod.Id.ToString()
-                };
-                newInventory.ProductOptions.Add(listItem);
-                //}
+                int alreadyExists = currentInventoryProductId.FindIndex(id => id == prod.Id);
+                if (alreadyExists == -1)
+                    {
+                        SelectListItem listItem = new SelectListItem
+                    {
+                        Text = prod.Name,
+                        Value = prod.Id.ToString()
+                    };
+                    newInventory.ProductOptions.Add(listItem);
+                }
             }
             return View(newInventory);
         }
