@@ -51,5 +51,24 @@ namespace StoreBL
         {
             return _repo.GetCustomerById(id);
         }
+
+        /// <summary>
+        /// Updates the customer info
+        /// </summary>
+        /// <param name="customer">customer object</param>
+        /// <returns>updated customer</returns>
+        public Customer UpdateCustomer(Customer customer)
+        {
+            return _repo.UpdateCustomer(customer);
+        }
+
+        /// <summary>
+        /// Deletes customer from db
+        /// </summary>
+        /// <param name="customer">customer obj to be deleted</param>
+        public void DeleteCustomer(Customer customer)
+        {
+            _repo.DeleteCustomer(customer);
+        }
     }
 }

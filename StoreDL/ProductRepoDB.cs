@@ -17,25 +17,31 @@ namespace StoreDL
         public List<Product> GetAllProducts()
         {
             return _context.Products
-            .Select(
+                .AsNoTracking()
+                .Select(
                 prod => prod
             ).ToList();
         }
 
         public Product GetProductById(int id)
         {
-            return _context.Products.FirstOrDefault(product => product.Id == id);
+            return _context.Products
+                .AsNoTracking()
+                .FirstOrDefault(product => product.Id == id);
         }
 
         public Product GetProductByName(string name)
         {
-            return _context.Products.FirstOrDefault(product => product.Name == name);
+            return _context.Products
+                .AsNoTracking()
+                .FirstOrDefault(product => product.Name == name);
         }
 
         public Product AddNewProduct(Product product)
         {
             Product prodToAdd = _context.Products.Add(product).Entity;
             _context.SaveChanges();
+            _context.ChangeTracker.Clear();
 
             return prodToAdd;
         }
@@ -44,6 +50,7 @@ namespace StoreDL
         {
             Product toUpdate = _context.Products.Update(product).Entity;
             _context.SaveChanges();
+            _context.ChangeTracker.Clear();
             return toUpdate;
         }
 
@@ -51,6 +58,7 @@ namespace StoreDL
         {
             _context.Products.Remove(product);
             _context.SaveChanges();
+            _context.ChangeTracker.Clear();
         }
     }
 }

@@ -67,16 +67,25 @@ namespace StoreWebUI.Controllers
         // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(_customerBL.FindCustomerById(id));
+            return View(new CustomerVM(_customerBL.FindCustomerById(id)));
         }
 
         // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, CustomerVM customerVM)
         {
             try
             {
+                if(ModelState.IsValid)
+                {
+                    _customerBL.UpdateCustomer(new Customer
+                    {
+                        Id = customerVM.Id,
+                        Name = customerVM.Name,
+                        Email = customerVM.Email
+                    });
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -88,16 +97,20 @@ namespace StoreWebUI.Controllers
         // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View(_customerBL.FindCustomerById(id));
+            return View(new CustomerVM(_customerBL.FindCustomerById(id)));
         }
 
         // POST: CustomerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, CustomerVM customerVM)
         {
             try
             {
+                _customerBL.DeleteCustomer(new Customer
+                {
+                    Id = customerVM.Id
+                });
                 return RedirectToAction(nameof(Index));
             }
             catch

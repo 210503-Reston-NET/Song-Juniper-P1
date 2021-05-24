@@ -52,6 +52,7 @@ namespace StoreDL
         {
             Location updated = _context.Locations.Update(location).Entity;
             _context.SaveChanges();
+            _context.ChangeTracker.Clear();
             return updated;
         }
 
@@ -59,6 +60,7 @@ namespace StoreDL
         {
             _context.Locations.Remove(location);
             _context.SaveChanges();
+            _context.ChangeTracker.Clear();
         }
 
         public List<Inventory> GetLocationInventory(int locationId)

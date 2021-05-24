@@ -13,5 +13,7 @@ namespace StoreDL
         public Customer GetCustomerById(int id);
         public Customer GetCustomerByName(string name);
         public Customer AddNewCustomer(Customer customer);
+        public Customer UpdateCustomer(Customer customer);
+        public void DeleteCustomer(Customer customer);
     }
 }

@@ -13,5 +13,8 @@ namespace StoreBL
         public List<Customer> GetAllCustomers();
         public Customer FindCustomerByName(string name);
         public Customer FindCustomerById(int id);
+        public Customer UpdateCustomer(Customer customer);
+
+        public void DeleteCustomer(Customer customer);
     }
 }
