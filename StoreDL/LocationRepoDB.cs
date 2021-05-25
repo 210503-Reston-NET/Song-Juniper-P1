@@ -147,5 +147,16 @@ namespace StoreDL
                 .Include("Product")
                 .FirstOrDefault(item => item.Id == id);
         }
+
+        /// <summary>
+        /// Deletes inventory
+        /// </summary>
+        /// <param name="inventory">inventory obj to be deleted</param>
+        public void DeleteInventory(Inventory inventory)
+        {
+            _context.Inventories.Remove(inventory);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+        }
     }
 }

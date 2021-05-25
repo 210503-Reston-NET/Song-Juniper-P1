@@ -19,5 +19,6 @@ namespace StoreDL
         public Inventory GetInventoryById(int id);
         public Inventory UpdateInventoryItem(Inventory inventory);
         public void DeleteLocation(Location location);
+        public void DeleteInventory(Inventory inventory);
     }
 }

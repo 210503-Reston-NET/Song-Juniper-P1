@@ -18,7 +18,7 @@ namespace StoreBL
         public Inventory UpdateInventoryItem(Inventory inventory);
         public Inventory GetInventoryById(int id);
         public Location UpdateLocation(Location location);
-
         public void DeleteLocation(Location location);
+        public void DeleteInventory(Inventory inventory);
     }
 }

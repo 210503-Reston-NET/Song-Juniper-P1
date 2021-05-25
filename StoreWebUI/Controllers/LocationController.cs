@@ -170,7 +170,7 @@ namespace StoreWebUI.Controllers
                         LocationId = id,
                         Quantity = inventoryVM.Quantity
                     }); ;
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId });
                 }
                 return AddInventory(id);
             }
@@ -190,6 +190,12 @@ namespace StoreWebUI.Controllers
             return View(new InventoryVM(_locationBL.GetInventoryById(id)));
         }
 
+        /// <summary>
+        /// POST: LocationController/UpdateInventory/5
+        /// </summary>
+        /// <param name="id">Inventory Id</param>
+        /// <param name="inventoryVM">form data</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateInventory(int id, InventoryVM inventoryVM)
@@ -211,6 +217,37 @@ namespace StoreWebUI.Controllers
             catch
             {
                 return UpdateInventory(id);
+            }
+        }
+
+        /// <summary>
+        /// GET LocationController/DeleteInventory/5
+        /// </summary>
+        /// <param name="id">inventory Id</param>
+        /// <returns></returns>
+        public ActionResult DeleteInventory(int id)
+        {
+            return View(new InventoryVM(_locationBL.GetInventoryById(id)));
+        }
+
+        /// <summary>
+        /// POST: LocationController/DeleteInventory/5
+        /// </summary>
+        /// <param name="id">Inventory id</param>
+        /// <param name="inventoryVM">submitted form</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteInventory(int id, InventoryVM inventoryVM)
+        {
+            try
+            {
+                _locationBL.DeleteInventory(new Inventory { Id = id });
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View(new InventoryVM(_locationBL.GetInventoryById(id)));
             }
         }
     }

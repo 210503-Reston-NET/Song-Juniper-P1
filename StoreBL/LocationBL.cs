@@ -111,5 +111,10 @@ namespace StoreBL
         {
             _repo.DeleteLocation(location);
         }
+
+        public void DeleteInventory(Inventory inventory)
+        {
+            _repo.DeleteInventory(inventory);
+        }
     }
 }
