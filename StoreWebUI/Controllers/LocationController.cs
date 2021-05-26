@@ -242,8 +242,9 @@ namespace StoreWebUI.Controllers
         {
             try
             {
+                int LocationId = _locationBL.GetInventoryById(id).LocationId;
                 _locationBL.DeleteInventory(new Inventory { Id = id });
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Inventory), new { id = LocationId });
             }
             catch
             {
