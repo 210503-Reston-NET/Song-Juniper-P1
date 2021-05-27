@@ -31,3 +31,17 @@ steps:
   inputs:
     command: 'test'
     projects: '**/StoreTests/*.csproj'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    zipAfterPublish: true
+    projects: '**/StoreWebUI/*.csproj'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription1'
+    appType: 'webApp'
+    WebAppName: 'wssp1'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
