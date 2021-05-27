@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StoreModels;
 
 namespace StoreDL
 {
-    public class WssDBContext : DbContext
+    public class WssDBContext : IdentityDbContext<IdentityUser>
     {
         public WssDBContext(DbContextOptions options) : base(options)
         {
@@ -22,9 +24,10 @@ namespace StoreDL
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
         public DbSet<Order> Orders { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Location>()
                 .Property(location => location.Id)
                 .ValueGeneratedOnAdd();
