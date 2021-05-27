@@ -14,6 +14,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
 #Basic pipeline of restoring, building, and testing
 - task: DotNetCoreCLI@2
   displayName: Restore project deps
@@ -21,6 +22,13 @@ steps:
     command: 'restore'
     projects: $(solution)
     feedsToUse: 'select'
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Sonarcloud'
+    organization: '210503-reston-net'
+    scannerMode: 'MSBuild'
+    projectKey: '210503-Reston-NET_Song-Juniper-P1'
+    projectName: 'Song-Juniper-P1'
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
@@ -31,6 +39,12 @@ steps:
   inputs:
     command: 'test'
     projects: '**/StoreTests/*.csproj'
+
+- task: SonarCloudAnalyze@1
+  displayName: Run Code Analysis
+- task: SonarCloudPublish@1
+  displayName: Publish Code Analysis
+
 - task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
@@ -46,3 +60,4 @@ steps:
     appType: 'webApp'
     WebAppName: 'wssp1'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
