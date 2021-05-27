@@ -39,6 +39,7 @@ steps:
   inputs:
     command: 'test'
     projects: '**/StoreTests/*.csproj'
+    arguments: --configuration $(buildConfiguration) --collect "Code Coverage"
 
 - task: SonarCloudAnalyze@1
   displayName: Run Code Analysis
