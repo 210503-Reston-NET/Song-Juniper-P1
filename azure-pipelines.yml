@@ -32,6 +32,7 @@ steps:
     command: 'test'
     projects: '**/StoreTests/*.csproj'
 - task: DotNetCoreCLI@2
+  displayName: Publish
   inputs:
     command: 'publish'
     publishWebProjects: false
