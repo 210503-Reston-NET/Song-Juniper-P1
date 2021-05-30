@@ -10,7 +10,7 @@ using StoreModels;
 
 namespace StoreDL
 {
-    public class WssDBContext : IdentityDbContext<IdentityUser>
+    public class WssDBContext : IdentityDbContext<User, UserRole, Guid>
     {
         public WssDBContext(DbContextOptions options) : base(options)
         {

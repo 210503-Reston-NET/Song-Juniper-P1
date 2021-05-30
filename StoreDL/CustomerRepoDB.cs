@@ -34,7 +34,7 @@ namespace StoreDL
         {
             Customer found = _context.Customers
             .AsNoTracking()
-            .FirstOrDefault(customer => customer.Id == id);
+            .FirstOrDefault(customer => customer.Id.Equals(id));
             return found;
         }
         /// <summary>
