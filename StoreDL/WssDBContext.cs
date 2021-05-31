@@ -46,8 +46,6 @@ namespace StoreDL
             modelBuilder.Entity<Order>()
                 .Property(order => order.Id)
                 .ValueGeneratedOnAdd();
-            modelBuilder.Entity<User>()
-                .Property(user => user.Id);
         }
     }
 }
