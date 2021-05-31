@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StoreBL;
 using StoreModels;
+using StoreWebUI.Models;
 
 namespace StoreWebUI.Controllers
 {
@@ -57,10 +58,48 @@ namespace StoreWebUI.Controllers
             return View(openOrder);
         }
 
-        // GET: CartController/Create
-        public ActionResult Create()
+        /// <summary>
+        /// GET: LocationController/AddToCart/5
+        /// Display Page to add products to the customer's cart
+        /// </summary>
+        /// <param name="id">inventory Id</param>
+        /// <returns></returns>
+        public ActionResult AddToCart(int id)
         {
-            return View();
+            InventoryVM item = new InventoryVM(_locationBL.GetInventoryById(id));
+            item.Quantity = 0;
+            return View(item);
+        }
+
+        /// <summary>
+        /// POST: LocationController/AddToCart/5
+        /// persists the form data to db
+        /// </summary>
+        /// <param name="id">inventory ID</param>
+        /// <param name="inventoryVM">form data</param>
+        /// <returns></returns>
+        public ActionResult AddToCart(int id, InventoryVM inventoryVM)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //Todo: Create order functionality first
+                    //and then get the "open" order and add to this.
+                    _orderBL.CreateLineItem(new LineItem
+                    {
+                        ProductId = inventoryVM.ProductId,
+                        //OrderId = order.Id,
+                        Quantity = inventoryVM.Quantity
+                    });
+                    return RedirectToAction(nameof(Inventory), "Location", new { id = inventoryVM.LocationId });
+                }
+                return AddToCart(id);
+            }
+            catch
+            {
+                return AddToCart(id);
+            }
         }
 
         // POST: CartController/Create
