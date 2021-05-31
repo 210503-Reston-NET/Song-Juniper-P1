@@ -14,21 +14,21 @@ namespace StoreDL
             _context = context;
         }
 
-        public List<Order> GetOrdersByCustomerAndLocation(int customerId, int locationId) {
+        public List<Order> GetOrdersByCustomerAndLocation(Guid userId, int locationId) {
             return _context.Orders
             .AsNoTracking()
-            .Where(order => order.CustomerId == customerId && order.LocationId == locationId)
+            .Where(order => order.UserId.Equals(userId) && order.LocationId == locationId)
             .Select(
                 order => order
             )
             .ToList();
         }
 
-        public List<Order> GetOrdersByCustomerId(int customerId)
+        public List<Order> GetOrdersByCustomerId(Guid userId)
         {
             return _context.Orders
             .AsNoTracking()
-            .Where(order => order.CustomerId == customerId)
+            .Where(order => order.UserId.Equals(userId))
             .Select(order => order)
             .ToList();
         }
@@ -60,11 +60,11 @@ namespace StoreDL
             return item;
         }
 
-        public Order GetOpenOrder(int customerId, int locationId)
+        public Order GetOpenOrder(Guid userId, int locationId)
         {
             Order found = _context.Orders
                 .AsNoTracking()
-                .FirstOrDefault(order => order.CustomerId == customerId && order.LocationId == locationId && order.Closed == false);
+                .FirstOrDefault(order => order.UserId.Equals(userId) && order.LocationId == locationId && order.Closed == false);
             return found;
         }
 

@@ -1,14 +1,18 @@
 ﻿@model StoreWebUI.Models.LocationVM
-@{ 
+@{
     ViewData["Title"] = "Inventory";
 }
 
 <h1>@Html.DisplayFor(model => model.Name)'s Inventory</h1>
 <h3>Location: @Html.DisplayFor(model => model.Address)</h3>
-<p>
+@if (User.IsInRole("Admin"))
+{
     @Html.ActionLink("Add Product To Inventory", "AddInventory", new { id = Model.Id })
-
-</p>
+}
+else
+{
+    @Html.ActionLink("View Cart", "Index", "Order", new { id = Model.Id })
+}
 <table class="table">
     <thead>
         <tr>
@@ -31,10 +35,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
-                <td>
-                    @Html.ActionLink("Update Quantity", "UpdateInventory", new { id = item.Id}) |
-                    @Html.ActionLink("Delete", "DeleteInventory", new { id = item.Id })
-                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Update Quantity", "UpdateInventory", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "DeleteInventory", new { id = item.Id })
+                    </td>
+                }
+                else
+                {
+                    <td>@Html.ActionLink("Add To Cart", "AddToCart", new { id = item.Id })</td>
+                }
             </tr>
         }
     </tbody>

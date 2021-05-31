@@ -6,15 +6,12 @@ MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreModels", "StoreModels\StoreModels.csproj", "{276B1B82-2B31-4E76-AF6F-2ECF498FC85D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreTests", "StoreTests\StoreTests.csproj", "{17EDC388-D543-469F-8111-446BF5D46FDC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD} = {677BA39F-0AAE-466D-B3F6-8E8720AC10BD}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDL", "StoreDL\StoreDL.csproj", "{AA0750E2-A25A-48F7-9524-67F9154F1ADC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreBL", "StoreBL\StoreBL.csproj", "{9CE020FA-CB65-40A9-8B43-5B1645194EE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreWebUI", "StoreWebUI\StoreWebUI.csproj", "{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreWebUI", "StoreWebUI\StoreWebUI.csproj", "{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,18 +71,18 @@ Global
 		{9CE020FA-CB65-40A9-8B43-5B1645194EE4}.Release|x64.Build.0 = Release|Any CPU
 		{9CE020FA-CB65-40A9-8B43-5B1645194EE4}.Release|x86.ActiveCfg = Release|Any CPU
 		{9CE020FA-CB65-40A9-8B43-5B1645194EE4}.Release|x86.Build.0 = Release|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Debug|x64.Build.0 = Debug|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Debug|x86.Build.0 = Debug|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Release|x64.ActiveCfg = Release|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Release|x64.Build.0 = Release|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Release|x86.ActiveCfg = Release|Any CPU
-		{677BA39F-0AAE-466D-B3F6-8E8720AC10BD}.Release|x86.Build.0 = Release|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Release|x64.Build.0 = Release|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

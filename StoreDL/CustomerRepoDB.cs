@@ -28,13 +28,13 @@ namespace StoreDL
         /// <summary>
         /// Finds customer by id
         /// </summary>
-        /// <param name="id">int id, to be used to find</param>
+        /// <param name="id">Guid id, to be used to find</param>
         /// <returns>Found customer obj</returns>
         public Customer GetCustomerById(int id)
         {
             Customer found = _context.Customers
             .AsNoTracking()
-            .FirstOrDefault(customer => customer.Id == id);
+            .FirstOrDefault(customer => customer.Id.Equals(id));
             return found;
         }
         /// <summary>

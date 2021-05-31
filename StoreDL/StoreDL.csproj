@@ -1,10 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <Compile Remove="CustomerRepoDB.cs" />
+    <Compile Remove="ICustomerRepo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StoreModels\StoreModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

@@ -32,6 +32,6 @@
 
     <form asp-action="DeleteInventory">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        @Html.ActionLink("Back To List", "Inventory", new { id = Model.LocationId })
     </form>
 </div>

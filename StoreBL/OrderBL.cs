@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using StoreDL;
 using StoreModels;
@@ -22,9 +23,9 @@ namespace StoreBL
         /// <param name="customerId">int, customer id that is associated to this order</param>
         /// <param name="locationId">int, location id that is associated to this order</param>
         /// <returns>order, if found</returns>
-        public Order GetOpenOrder(int customerId, int locationId)
+        public Order GetOpenOrder(Guid userId, int locationId)
         {
-            return _repo.GetOpenOrder(customerId, locationId);
+            return _repo.GetOpenOrder(userId, locationId);
         }
         /// <summary>
         /// calls the repo method for creating an order
@@ -41,9 +42,9 @@ namespace StoreBL
         /// <param name="customerId">Customer.Id</param>
         /// <param name="locationId">Location.Id</param>
         /// <returns>list of all orders under one customer at a particular location</returns>
-        public List<Order> GetOrdersByCustomerAndLocation (int customerId, int locationId)
+        public List<Order> GetOrdersByCustomerAndLocation (Guid userId, int locationId)
         {
-            return _repo.GetOrdersByCustomerAndLocation(customerId, locationId);
+            return _repo.GetOrdersByCustomerAndLocation(userId, locationId);
         }
 
         /// <summary>
@@ -51,9 +52,9 @@ namespace StoreBL
         /// </summary>
         /// <param name="customerId">Customer.Id</param>
         /// <returns>list of orders</returns>
-        public List<Order> GetOrdersByCustomerId (int customerId)
+        public List<Order> GetOrdersByCustomerId (Guid userId)
         {
-            return _repo.GetOrdersByCustomerId(customerId);
+            return _repo.GetOrdersByCustomerId(userId);
         }
         /// <summary>
         /// Gets all line items associated to a particular order

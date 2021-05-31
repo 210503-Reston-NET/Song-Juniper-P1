@@ -1,7 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\StoreModels\StoreModels.csproj"/>
-    <ProjectReference Include="..\StoreDL\StoreDL.csproj"/>
+    <Compile Remove="CustomerBL.cs" />
+    <Compile Remove="ICustomerBL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StoreModels\StoreModels.csproj" />
+    <ProjectReference Include="..\StoreDL\StoreDL.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>

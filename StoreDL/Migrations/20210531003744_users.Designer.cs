@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StoreDL;
@@ -9,9 +10,10 @@ using StoreDL;
 namespace StoreDL.Migrations
 {
     [DbContext(typeof(WssDBContext))]
-    partial class WssDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210531003744_users")]
+    partial class users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,6 +122,51 @@ namespace StoreDL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("StoreDL.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("StoreModels.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("StoreModels.Inventory", b =>
                 {
                     b.Property<int>("Id")
@@ -198,6 +245,9 @@ namespace StoreDL.Migrations
                     b.Property<bool>("Closed")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
@@ -207,14 +257,11 @@ namespace StoreDL.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Orders");
                 });
@@ -311,36 +358,9 @@ namespace StoreDL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("StoreModels.UserRole", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("StoreModels.UserRole", null)
+                    b.HasOne("StoreDL.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -367,7 +387,7 @@ namespace StoreDL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("StoreModels.UserRole", null)
+                    b.HasOne("StoreDL.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -425,17 +445,22 @@ namespace StoreDL.Migrations
 
             modelBuilder.Entity("StoreModels.Order", b =>
                 {
+                    b.HasOne("StoreModels.Customer", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("StoreModels.Location", null)
                         .WithMany("Orders")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("StoreModels.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("StoreModels.Customer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("StoreModels.Location", b =>
@@ -448,11 +473,6 @@ namespace StoreDL.Migrations
             modelBuilder.Entity("StoreModels.Order", b =>
                 {
                     b.Navigation("LineItems");
-                });
-
-            modelBuilder.Entity("StoreModels.User", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StoreBL;
 using StoreDL;
+using StoreModels;
 
 namespace StoreWebUI
 {
@@ -27,15 +29,21 @@ namespace StoreWebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
+
             services.AddDbContext<WssDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("WssDB")));
-            services.AddScoped<ICustomerRepo, CustomerRepoDB>();
             services.AddScoped<ILocationRepo, LocationRepoDB>();
             services.AddScoped<IProductRepo, ProductRepoDB>();
             services.AddScoped<IOrderRepo, OrderRepoDB>();
-            services.AddScoped<ICustomerBL, CustomerBL>();
             services.AddScoped<ILocationBL, LocationBL>();
             services.AddScoped<IOrderBL, OrderBL>();
             services.AddScoped<IProductBL, ProductBL>();
+
+            services.AddIdentity<User, UserRole>()
+            .AddRoles<UserRole>()
+            .AddEntityFrameworkStores<WssDBContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
 
         }
 
@@ -57,6 +65,7 @@ namespace StoreWebUI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -64,7 +73,9 @@ namespace StoreWebUI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
+
     }
 }

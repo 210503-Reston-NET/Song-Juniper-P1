@@ -13,29 +13,29 @@ namespace StoreModels
             this.Closed = false;
         }
 
-        public Order(int customerId, int storeId) : this()
+        public Order(Guid userId, int storeId) : this()
         {
-            this.CustomerId = customerId;
+            this.UserId = userId;
             this.LocationId = storeId;
         }
-        public Order(int customerId, int storeId, int id) : this(customerId, storeId)
+        public Order(Guid userId, int storeId, int id) : this(userId, storeId)
         {
             this.Id = id;
         }
 
-        public Order(int customerId, int storeId, List<LineItem> items) : this(customerId, storeId)
+        public Order(Guid userId, int storeId, List<LineItem> items) : this(userId, storeId)
         {
             this.LineItems = items;
         }
 
-        public Order(int customerId, int storeId, int id, List<LineItem> items) : this(customerId, storeId, id)
+        public Order(Guid userId, int storeId, int id, List<LineItem> items) : this(userId, storeId, id)
         {
             this.LineItems = items;
         }
         public int Id { get; set; }
 
         public DateTime DateCreated { get; set; }
-        public int CustomerId { get; set; }
+        public Guid UserId { get; set; }
         public int LocationId { get; set; }
         public List<LineItem> LineItems { get; set; }
 
