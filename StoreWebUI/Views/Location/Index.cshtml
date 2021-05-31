@@ -6,7 +6,10 @@
 <h1>List of Stores</h1>
 
 <p>
-    <a asp-action="Create">Create a New Store</a>
+    @if(User.IsInRole("Admin"))
+    {
+        <a asp-action="Create">Create a New Store</a>
+    }
 </p>
 <table class="table">
     <thead>
@@ -23,20 +26,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.ActionLink("Order History", "Orders", new { id = item.Id }) |
-                    @Html.ActionLink("Inventory", "Inventory", new { id = item.Id}) | 
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Inventory", "Inventory", new { id = item.Id }) <span>|</span>
+                    @Html.ActionLink("Order History", "Orders", new { id = item.Id }) <span>|</span>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <span>|</span>
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
-            </tr>
+            }
+            else
+            {
+                <td>
+                    @Html.ActionLink("Shop This Store", "Inventory", new { id = item.Id })
+                </td>
+            }
+        </tr>
         }
-    </tbody>
+</tbody>
 </table>

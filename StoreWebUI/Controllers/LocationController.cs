@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,6 +31,7 @@ namespace StoreWebUI.Controllers
                 );
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: LocationController/Create
         public ActionResult Create()
         {
@@ -39,6 +41,7 @@ namespace StoreWebUI.Controllers
         // POST: LocationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(LocationVM locationVM)
         {
             try
@@ -60,6 +63,7 @@ namespace StoreWebUI.Controllers
         }
 
         // GET: LocationController/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             return View(new LocationVM(_locationBL.FindLocationByID(id)));
@@ -68,6 +72,7 @@ namespace StoreWebUI.Controllers
         // PUT: LocationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, LocationVM locationVM)
         {
             try
@@ -91,6 +96,7 @@ namespace StoreWebUI.Controllers
         }
 
         // GET: LocationController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             return View(new LocationVM(_locationBL.FindLocationByID(id)));
@@ -99,6 +105,7 @@ namespace StoreWebUI.Controllers
         // POST: LocationController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, LocationVM locationVM)
         {
             try
@@ -126,6 +133,7 @@ namespace StoreWebUI.Controllers
         }
 
         // GET: LocationController/AddInventory/5
+        [Authorize(Roles = "Admin")]
         public ActionResult AddInventory(int id)
         {
             //first, get the current inventory of the store, and just pluck the produt id's so we can compare them later
@@ -159,6 +167,7 @@ namespace StoreWebUI.Controllers
         // POST: LocationController/AddInventory/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult AddInventory(int id, InventoryVM inventoryVM)
         {
             try
@@ -185,6 +194,7 @@ namespace StoreWebUI.Controllers
         /// </summary>
         /// <param name="id">id of inventory to be updated</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         public ActionResult UpdateInventory(int id)
         {
             return View(new InventoryVM(_locationBL.GetInventoryById(id)));
@@ -198,6 +208,7 @@ namespace StoreWebUI.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult UpdateInventory(int id, InventoryVM inventoryVM)
         {
             try
@@ -225,6 +236,7 @@ namespace StoreWebUI.Controllers
         /// </summary>
         /// <param name="id">inventory Id</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteInventory(int id)
         {
             return View(new InventoryVM(_locationBL.GetInventoryById(id)));
@@ -238,6 +250,7 @@ namespace StoreWebUI.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteInventory(int id, InventoryVM inventoryVM)
         {
             try
@@ -250,6 +263,13 @@ namespace StoreWebUI.Controllers
             {
                 return View(new InventoryVM(_locationBL.GetInventoryById(id)));
             }
+        }
+
+        public ActionResult AddToCart(int id)
+        {
+            InventoryVM item = new InventoryVM(_locationBL.GetInventoryById(id));
+            item.Quantity = 0;
+            return View(item);
         }
     }
 }

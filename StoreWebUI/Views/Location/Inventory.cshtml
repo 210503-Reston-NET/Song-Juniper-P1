@@ -5,10 +5,12 @@
 
 <h1>@Html.DisplayFor(model => model.Name)'s Inventory</h1>
 <h3>Location: @Html.DisplayFor(model => model.Address)</h3>
-<p>
-    @Html.ActionLink("Add Product To Inventory", "AddInventory", new { id = Model.Id })
-
-</p>
+@if(User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Add Product To Inventory", "AddInventory", new { id = Model.Id })
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -24,17 +26,24 @@
     <tbody>
         @foreach (var item in Model.Inventories)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.ActionLink("Update Quantity", "UpdateInventory", new { id = item.Id}) |
+                    @Html.ActionLink("Update Quantity", "UpdateInventory", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "DeleteInventory", new { id = item.Id })
                 </td>
+            }
+            else
+            {
+                <td>@Html.ActionLink("Add To Cart","AddToCart", new { id = item.Id})</td>
+            }
             </tr>
         }
     </tbody>
