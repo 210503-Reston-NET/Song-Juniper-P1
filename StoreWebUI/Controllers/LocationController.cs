@@ -14,12 +14,14 @@ namespace StoreWebUI.Controllers
 {
     public class LocationController : Controller
     {
-        private ILocationBL _locationBL;
-        private IProductBL _productBL;
-        public LocationController(ILocationBL locationBL, IProductBL productBL)
+        private readonly ILocationBL _locationBL;
+        private readonly IProductBL _productBL;
+        private readonly IOrderBL _orderBL;
+        public LocationController(ILocationBL locationBL, IProductBL productBL, IOrderBL orderBL)
         {
             _locationBL = locationBL;
             _productBL = productBL;
+            _orderBL = orderBL;
         }
         // GET: LocationController
         public ActionResult Index()
@@ -265,11 +267,48 @@ namespace StoreWebUI.Controllers
             }
         }
 
+        /// <summary>
+        /// GET: LocationController/AddToCart/5
+        /// Display Page to add products to the customer's cart
+        /// </summary>
+        /// <param name="id">inventory Id</param>
+        /// <returns></returns>
         public ActionResult AddToCart(int id)
         {
             InventoryVM item = new InventoryVM(_locationBL.GetInventoryById(id));
             item.Quantity = 0;
             return View(item);
+        }
+
+        /// <summary>
+        /// POST: LocationController/AddToCart/5
+        /// persists the form data to db
+        /// </summary>
+        /// <param name="id">inventory ID</param>
+        /// <param name="inventoryVM">form data</param>
+        /// <returns></returns>
+        public ActionResult AddToCart(int id, InventoryVM inventoryVM)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //Todo: Create order functionality first
+                    //and then get the "open" order and add to this.
+                    _orderBL.CreateLineItem(new LineItem
+                    {
+                        ProductId = inventoryVM.ProductId,
+                        //OrderId = order.Id,
+                        Quantity = inventoryVM.Quantity
+                    });
+                    return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId });
+                }
+                return UpdateInventory(id);
+            }
+            catch
+            {
+                return UpdateInventory(id);
+            }
         }
     }
 }
