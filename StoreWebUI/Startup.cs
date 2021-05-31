@@ -32,11 +32,9 @@ namespace StoreWebUI
             services.AddRazorPages();
 
             services.AddDbContext<WssDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("WssDB")));
-            services.AddScoped<ICustomerRepo, CustomerRepoDB>();
             services.AddScoped<ILocationRepo, LocationRepoDB>();
             services.AddScoped<IProductRepo, ProductRepoDB>();
             services.AddScoped<IOrderRepo, OrderRepoDB>();
-            services.AddScoped<ICustomerBL, CustomerBL>();
             services.AddScoped<ILocationBL, LocationBL>();
             services.AddScoped<IOrderBL, OrderBL>();
             services.AddScoped<IProductBL, ProductBL>();

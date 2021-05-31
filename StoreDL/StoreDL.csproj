@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <Compile Remove="CustomerRepoDB.cs" />
+    <Compile Remove="ICustomerRepo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StoreModels\StoreModels.csproj" />
   </ItemGroup>
 

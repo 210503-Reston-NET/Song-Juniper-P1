@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Customer\**" />
+    <Content Remove="Views\Customer\**" />
+    <EmbeddedResource Remove="Views\Customer\**" />
+    <None Remove="Views\Customer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\CustomerController.cs" />
+    <Compile Remove="Models\CustomerVM.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StoreBL\StoreBL.csproj" />
     <ProjectReference Include="..\StoreDL\StoreDL.csproj" />
     <ProjectReference Include="..\StoreModels\StoreModels.csproj" />

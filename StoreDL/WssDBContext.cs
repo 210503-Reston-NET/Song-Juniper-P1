@@ -20,7 +20,6 @@ namespace StoreDL
 
         public DbSet<Location> Locations { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Customer> Customers { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -33,9 +32,6 @@ namespace StoreDL
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<Product>()
                 .Property(product => product.Id)
-                .ValueGeneratedOnAdd();
-            modelBuilder.Entity<Customer>()
-                .Property(customer => customer.Id)
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<Inventory>()
                 .Property(inventory => inventory.Id)
