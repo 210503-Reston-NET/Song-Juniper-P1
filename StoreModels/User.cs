@@ -30,5 +30,7 @@ namespace StoreModels
                 _name = value;
             }
         }
+
+        public List<Order> Orders { get; set; }
     }
 }
