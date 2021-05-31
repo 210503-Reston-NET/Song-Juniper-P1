@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.Text.RegularExpressions;
-
+using System.Security.Claims;
 
 namespace StoreModels
 {

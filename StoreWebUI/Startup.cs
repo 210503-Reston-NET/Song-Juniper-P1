@@ -77,5 +77,6 @@ namespace StoreWebUI
                 endpoints.MapRazorPages();
             });
         }
+
     }
 }
