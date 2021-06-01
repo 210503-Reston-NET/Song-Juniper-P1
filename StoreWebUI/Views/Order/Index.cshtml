@@ -21,6 +21,12 @@
                 @Html.DisplayFor(modelItem => item.Product.Name)
             </dd>
             <dt class="col-sm-2">
+                @Html.DisplayNameFor(modelItem => item.Product.Price)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelItem => item.Product.Price)
+            </dd>
+            <dt class="col-sm-2">
                 @Html.DisplayNameFor(modelItem => item.Quantity)
             </dt>
             <dd class="col-sm-10">
