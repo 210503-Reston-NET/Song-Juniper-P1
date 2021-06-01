@@ -28,14 +28,6 @@ namespace StoreWebUI.Controllers
                 );
         }
 
-        // GET: ProductController/Details/5
-        //Profile Details view...
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        // GET: ProductController/Create
         public ActionResult Create()
         {
             return View(new ProductVM());

@@ -7,7 +7,7 @@ namespace StoreDL
 {
     public class LocationRepoDB : ILocationRepo
     {
-        private WssDBContext _context;
+        private readonly WssDBContext _context;
         public LocationRepoDB(WssDBContext context)
         {
             _context = context;

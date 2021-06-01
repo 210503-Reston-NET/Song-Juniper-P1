@@ -33,7 +33,7 @@ namespace StoreWebUI.Models
         [Required]
         public string Category { get; set; }
 
-        public IEnumerable<SelectListItem> CategoryOptions = new List<SelectListItem>()
+        private IEnumerable<SelectListItem> _categoryOptions = new List<SelectListItem>()
         {
             new SelectListItem
             {
@@ -46,5 +46,11 @@ namespace StoreWebUI.Models
                 Text = "Supplies"
             }
         };
+
+        public IEnumerable<SelectListItem> CategoryOptions 
+        {
+            get { return _categoryOptions; }
+            set { _categoryOptions = value;  } 
+        }
     }
 }

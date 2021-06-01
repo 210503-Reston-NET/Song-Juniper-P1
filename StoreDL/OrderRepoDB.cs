@@ -8,7 +8,7 @@ namespace StoreDL
 {
     public class OrderRepoDB : IOrderRepo
     {
-        private WssDBContext _context;
+        private readonly WssDBContext _context;
         public OrderRepoDB(WssDBContext context)
         {
             _context = context;
@@ -80,7 +80,7 @@ namespace StoreDL
         {
             Order found = _context.Orders
                 .AsNoTracking()
-                .FirstOrDefault(order => order.UserId.Equals(userId) && order.LocationId == locationId && order.Closed == false);
+                .FirstOrDefault(order => order.UserId.Equals(userId) && order.LocationId == locationId && !order.Closed);
             return found;
         }
 

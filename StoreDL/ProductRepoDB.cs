@@ -8,7 +8,7 @@ namespace StoreDL
 {
     public class ProductRepoDB : IProductRepo
     {
-        private WssDBContext _context;
+        private readonly WssDBContext _context;
         public ProductRepoDB(WssDBContext context)
         {
             _context = context;

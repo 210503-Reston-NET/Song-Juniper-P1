@@ -10,7 +10,7 @@ namespace StoreBL
     /// </summary>
     public class LocationBL : ILocationBL
     {
-        private ILocationRepo _repo;
+        private readonly ILocationRepo _repo;
         public LocationBL(ILocationRepo repo)
         {
             _repo = repo;

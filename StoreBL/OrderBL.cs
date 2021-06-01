@@ -10,7 +10,7 @@ namespace StoreBL
     /// </summary>
     public class OrderBL : IOrderBL
     {
-        private IOrderRepo _repo;
+        private readonly IOrderRepo _repo;
 
         public OrderBL(IOrderRepo repo)
         {
