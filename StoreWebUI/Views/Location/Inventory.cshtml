@@ -5,14 +5,17 @@
 
 <h1>@Html.DisplayFor(model => model.Name)'s Inventory</h1>
 <h3>Location: @Html.DisplayFor(model => model.Address)</h3>
-@if (User.IsInRole("Admin"))
-{
-    @Html.ActionLink("Add Product To Inventory", "AddInventory", new { id = Model.Id })
-}
-else
-{
-    @Html.ActionLink("View Cart", "Index", "Order", new { id = Model.Id })
-}
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Add Product To Inventory", "AddInventory", new { id = Model.Id })
+    }
+    else
+    {
+        @Html.ActionLink("View Cart", "Index", "Order", new { id = Model.Id })
+    }
+</p>
+
 <table class="table">
     <thead>
         <tr>
