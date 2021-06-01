@@ -40,7 +40,7 @@ steps:
   inputs:
     command: 'test'
     projects: '$(solution)'
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"opencover,Cobertura\""'
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"opencover,Cobertura\"" /p:Exclude=\"[Data.Migrations.*]*\"'
     publishTestResults: true
 
 - task: PublishCodeCoverageResults@1
