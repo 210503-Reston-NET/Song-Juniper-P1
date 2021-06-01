@@ -9,7 +9,9 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
+                <a asp-action="OrderHistory" asp-controller="Location" asp-route-id="@Model.First().LocationId" asp-route-sortOrder="@ViewBag.DateSortParm">
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OrderUser.Name)
@@ -23,7 +25,11 @@
             <th>
                 Item Quantity
             </th>
-            <th>@Html.DisplayNameFor(model => model.Total)</th>
+            <th>
+                <a asp-action="OrderHistory" asp-controller="Location" asp-route-id="@Model.First().LocationId" asp-route-sortOrder="@ViewBag.PriceSortParm">
+                    @Html.DisplayNameFor(model => model.Total)
+                </a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -60,3 +66,6 @@
         }
     </tbody>
 </table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
