@@ -22,7 +22,8 @@ steps:
     projectKey: '210503-Reston-NET_Song-Juniper-P1'
     projectName: 'Song-Juniper-P1'
     extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml'
-#Basic pipeline of restoring, building, and testing
+
+#restore, build, and test
 - task: DotNetCoreCLI@2
   displayName: Restore project deps
   inputs:
@@ -38,7 +39,7 @@ steps:
   displayName: Test
   inputs:
     command: 'test'
-    projects: '**/StoreTests/*.csproj'
+    projects: '$(solution)'
     arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"opencover,Cobertura\""'
     publishTestResults: true
 
@@ -47,7 +48,7 @@ steps:
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/App/Tests/' 
+    reportDirectory: '$(Build.SourcesDirectory)/StoreTests/' 
 - task: SonarCloudAnalyze@1
   displayName: Run Code Analysis
 - task: SonarCloudPublish@1
