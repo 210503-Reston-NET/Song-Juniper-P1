@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StoreBL;
 using StoreModels;
 using StoreWebUI.Models;
@@ -9,15 +11,18 @@ namespace StoreWebUI.Controllers
     public class ProductController : Controller
     {
         private IProductBL _productBL;
+        private ILogger<ProductController> _logger;
 
-        public ProductController(IProductBL productBL)
+        public ProductController(IProductBL productBL, ILogger<ProductController> logger)
         {
             _productBL = productBL;
+            _logger = logger;
         }
 
         // GET: ProductController
         public ActionResult Index()
         {
+            _logger.LogInformation("GET: ProductController/Index");
             return View(
                 _productBL.GetAllProducts()
                 .Select(product => new ProductVM(product))
@@ -25,8 +30,13 @@ namespace StoreWebUI.Controllers
                 );
         }
 
+        /// <summary>
+        /// GET: ProductController/Create
+        /// </summary>
+        /// <returns>View to create a new product</returns>
         public ActionResult Create()
         {
+            _logger.LogInformation("GET: CREATE new product page");
             return View(new ProductVM());
         }
 
@@ -35,6 +45,7 @@ namespace StoreWebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductVM productVM)
         {
+            _logger.LogInformation("POST: CREATE new product", productVM);
             try
             {
                 if (ModelState.IsValid)
@@ -46,11 +57,15 @@ namespace StoreWebUI.Controllers
                         Price = productVM.Price,
                         Category = productVM.Category
                     });
+                    _logger.LogInformation("Product Creation successful", productVM);
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                _logger.LogInformation("Product Creation: Model State is invalid");
+                return View();    
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Product Creation Failed", productVM);
                 return View();
             }
         }

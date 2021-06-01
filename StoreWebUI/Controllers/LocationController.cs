@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using StoreBL;
 using StoreModels;
 using StoreWebUI.Models;
+using Serilog;
 
 namespace StoreWebUI.Controllers
 {
@@ -18,18 +20,21 @@ namespace StoreWebUI.Controllers
         private readonly IProductBL _productBL;
         private readonly IOrderBL _orderBL;
         private readonly UserManager<User> _userManager;
+        private readonly ILogger<LocationController> _logger;
 
-        public LocationController(ILocationBL locationBL, IProductBL productBL, IOrderBL orderBL, UserManager<User> userManager)
+        public LocationController(ILocationBL locationBL, IProductBL productBL, IOrderBL orderBL, UserManager<User> userManager, ILogger<LocationController> logger)
         {
             _locationBL = locationBL;
             _productBL = productBL;
             _orderBL = orderBL;
             _userManager = userManager;
+            _logger = logger;
         }
 
         // GET: LocationController
         public ActionResult Index()
         {
+            _logger.LogInformation("Get: Location Controller Index");
             return View(
                 _locationBL.GetAllLocations()
                 .Select(location => new LocationVM(location))
@@ -41,6 +46,7 @@ namespace StoreWebUI.Controllers
         // GET: LocationController/Create
         public ActionResult Create()
         {
+            _logger.LogInformation("Get: Location Controller/Create New Location");
             return View();
         }
 
@@ -50,6 +56,7 @@ namespace StoreWebUI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create(LocationVM locationVM)
         {
+            _logger.LogInformation("POST: LocationController/Create Creating New Location", locationVM);
             try
             {
                 if (ModelState.IsValid)
@@ -62,8 +69,9 @@ namespace StoreWebUI.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
+                _logger.LogError(ex, "POST: CREATE Location Failed", locationVM);
                 return View();
             }
         }
@@ -72,6 +80,8 @@ namespace StoreWebUI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
+            _logger.LogInformation("GET: LocationController/Edit/id Editing Location, ID: ", id);
+
             return View(new LocationVM(_locationBL.FindLocationByID(id)));
         }
 
@@ -81,6 +91,7 @@ namespace StoreWebUI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, LocationVM locationVM)
         {
+            _logger.LogInformation("POST: LocationController/Edit/id Editing Location", locationVM);
             try
             {
                 if (ModelState.IsValid)
@@ -95,8 +106,9 @@ namespace StoreWebUI.Controllers
                 }
                 return View();
             }
-            catch
+            catch(Exception ex)
             {
+                _logger.LogError(ex, "POST: EDIT Location Failed", locationVM);
                 return View();
             }
         }
@@ -105,6 +117,7 @@ namespace StoreWebUI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
+            _logger.LogInformation("GET: LocationController/Delete/id Deleting a Location id: ", id);
             return View(new LocationVM(_locationBL.FindLocationByID(id)));
         }
 
@@ -114,6 +127,7 @@ namespace StoreWebUI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, LocationVM locationVM)
         {
+            _logger.LogInformation("POST: LocationController/Delete/id Deleting a Location Id: ", id);
             try
             {
                 _locationBL.DeleteLocation(new Location
@@ -124,15 +138,21 @@ namespace StoreWebUI.Controllers
                 });
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "POST: Delete Location Failed", locationVM);
                 return View();
             }
         }
 
-        // GET: LocationController/Inventory/5
+        /// <summary>
+        /// GET: LocationController/Inventory/5
+        /// </summary>
+        /// <param name="id">Location Id</param>
+        /// <returns>View of all inventories in the location</returns>
         public ActionResult Inventory(int id)
         {
+            _logger.LogInformation("GET: LocationController/Inventory/id Getting inventories of a location Id:", id);
             LocationVM location = new LocationVM(_locationBL.FindLocationByID(id));
             location.Inventories = _locationBL.GetLocationInventory(id);
             return View(location);
@@ -142,6 +162,7 @@ namespace StoreWebUI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult AddInventory(int id)
         {
+            _logger.LogInformation("GET: LocationController/AddInventory/id, Adding a new inventory to the location Id: ", id);
             //first, get the current inventory of the store, and just pluck the produt id's so we can compare them later
             List<int> currentInventoryProductId = _locationBL.GetLocationInventory(id).Select(item => item.Product.Id).ToList();
             //and initialize the new inventoryVM instance
@@ -176,6 +197,7 @@ namespace StoreWebUI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult AddInventory(int id, InventoryVM inventoryVM)
         {
+            _logger.LogInformation("POST: LocationController/AddInventory/id", inventoryVM);
             try
             {
                 if (ModelState.IsValid)
@@ -188,10 +210,12 @@ namespace StoreWebUI.Controllers
                     }); ;
                     return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId });
                 }
+                _logger.LogInformation("Add Inventory Success", inventoryVM);
                 return AddInventory(id);
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Adding inventory failed", inventoryVM);
                 return AddInventory(id);
             }
         }

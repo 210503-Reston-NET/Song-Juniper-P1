@@ -12,6 +12,7 @@ using StoreModels;
 using StoreWebUI.Controllers;
 using StoreWebUI.Models;
 using Xunit;
+using Serilog;
 
 namespace StoreTests
 {
@@ -32,7 +33,8 @@ namespace StoreTests
             var mockProductBL = new Mock<IProductBL>();
             var mockOrderBL = new Mock<IOrderBL>();
             var mockUserManager = TestUserManager<User>();
-            var controller = new LocationController(mockLocationBL.Object, mockProductBL.Object, mockOrderBL.Object, mockUserManager);
+            var mockLogger = new Mock<ILogger<LocationController>>();
+            var controller = new LocationController(mockLocationBL.Object, mockProductBL.Object, mockOrderBL.Object, mockUserManager, mockLogger.Object);
             //Act
             var result = controller.Index();
             //Assert
