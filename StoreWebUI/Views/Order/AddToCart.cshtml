@@ -1,11 +1,11 @@
-﻿@model InventoryVM
+﻿@model StoreModels.LineItem
 
 @{
     ViewData["Title"] = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Update Inventory Quantity</h1>
+<h1>Add Item to Cart</h1>
 <hr />
 <div class="row">
     <dl class="row">
@@ -30,8 +30,9 @@
                 <input asp-for="Quantity" min="0" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="LocationId" value=@Model.LocationId />
+            <input type="hidden" asp-for="OrderId" value=@Model.OrderId />
             <input type="hidden" asp-for="ProductId" value=@Model.ProductId />
+            <input type="hidden" asp-for="Id" value=@Model.Id/>
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -41,7 +42,7 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back To List", "Inventory", new { id = Model.LocationId })
+    @Html.ActionLink("Back To List", "Inventory", "Location", new { id = ViewBag.LocationId })
 </div>
 
 @section Scripts {
