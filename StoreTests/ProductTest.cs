@@ -1,6 +1,6 @@
 using System;
-using Xunit;
 using StoreModels;
+using Xunit;
 
 namespace StoreTests
 {
@@ -19,6 +19,5 @@ namespace StoreTests
             Product test = new Product();
             Assert.Throws<Exception>(() => test.Price = -1);
         }
-
     }
 }

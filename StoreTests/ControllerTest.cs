@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using StoreBL;
 using StoreModels;
-using StoreWebUI.Models;
 using StoreWebUI.Controllers;
+using StoreWebUI.Models;
 using Xunit;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
 
 namespace StoreTests
 {
@@ -44,6 +43,7 @@ namespace StoreTests
             //Check that we're getting the same amount of restaurants that we're returning
             Assert.Equal(2, model.Count());
         }
+
         [Fact]
         public void OrderControllerGetOpenOrderShouldReturnOpenOrder()
         {

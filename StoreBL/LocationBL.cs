@@ -11,10 +11,12 @@ namespace StoreBL
     public class LocationBL : ILocationBL
     {
         private readonly ILocationRepo _repo;
+
         public LocationBL(ILocationRepo repo)
         {
             _repo = repo;
         }
+
         /// <summary>
         /// First tries to see if there is already a location with the same name. If not, calls repo method for creating a new location
         /// </summary>
@@ -22,7 +24,7 @@ namespace StoreBL
         /// <returns>created location object</returns>
         public Location AddNewLocation(Location newLoc)
         {
-            if(FindLocationByName(newLoc.Name) is not null)
+            if (FindLocationByName(newLoc.Name) is not null)
             {
                 throw new Exception("There is already a location with the same name");
             }
@@ -47,6 +49,7 @@ namespace StoreBL
         {
             return _repo.GetLocationByName(name);
         }
+
         /// <summary>
         /// calls repo method to search for a location by id
         /// </summary>
@@ -56,6 +59,7 @@ namespace StoreBL
         {
             return _repo.GetLocationById(id);
         }
+
         /// <summary>
         /// calls a repo method that gets all the inventory that is associated with the location id
         /// </summary>
@@ -65,6 +69,7 @@ namespace StoreBL
         {
             return _repo.GetLocationInventory(id);
         }
+
         /// <summary>
         /// calls the repo method to add new product to the location's inventory
         /// </summary>
@@ -74,6 +79,7 @@ namespace StoreBL
         {
             return _repo.AddInventory(inventory);
         }
+
         /// <summary>
         /// this is for updating the quantity of the already existing inventory product in a location
         /// </summary>
@@ -93,6 +99,7 @@ namespace StoreBL
         {
             return _repo.GetInventoryById(id);
         }
+
         /// <summary>
         /// calls repo method to update location details (ie, name, address, etc)
         /// </summary>

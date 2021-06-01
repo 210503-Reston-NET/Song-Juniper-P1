@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using StoreModels;
 
 namespace StoreDL
@@ -10,10 +6,15 @@ namespace StoreDL
     public interface IProductRepo
     {
         public List<Product> GetAllProducts();
+
         public Product GetProductById(int id);
+
         public Product GetProductByName(string name);
+
         public Product AddNewProduct(Product product);
+
         public Product UpdateProduct(Product product);
+
         public void DeleteProduct(Product product);
     }
 }

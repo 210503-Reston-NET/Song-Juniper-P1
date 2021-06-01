@@ -4,7 +4,9 @@ namespace StoreModels
 {
     public class LineItem
     {
-        public LineItem() {}
+        public LineItem()
+        {
+        }
 
         public LineItem(Product product, int orderId, int quant)
         {
@@ -13,7 +15,7 @@ namespace StoreModels
             this.Quantity = quant;
         }
 
-        public LineItem(Product product, int orderId, int quant, int id): this(product, orderId, quant)
+        public LineItem(Product product, int orderId, int quant, int id) : this(product, orderId, quant)
         {
             this.Id = id;
         }
@@ -25,12 +27,13 @@ namespace StoreModels
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public int OrderId { get; set; }
-        public int Quantity 
+
+        public int Quantity
         {
             get { return _quantity; }
             set
             {
-                if(value < 0)
+                if (value < 0)
                 {
                     throw new Exception("Quantities cannot be negative");
                 }

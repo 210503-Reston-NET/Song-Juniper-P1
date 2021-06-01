@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +8,7 @@ namespace StoreDL
     public class ProductRepoDB : IProductRepo
     {
         private readonly WssDBContext _context;
+
         public ProductRepoDB(WssDBContext context)
         {
             _context = context;

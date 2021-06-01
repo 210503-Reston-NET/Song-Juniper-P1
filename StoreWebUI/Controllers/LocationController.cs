@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,6 +18,7 @@ namespace StoreWebUI.Controllers
         private readonly IProductBL _productBL;
         private readonly IOrderBL _orderBL;
         private readonly UserManager<User> _userManager;
+
         public LocationController(ILocationBL locationBL, IProductBL productBL, IOrderBL orderBL, UserManager<User> userManager)
         {
             _locationBL = locationBL;
@@ -26,6 +26,7 @@ namespace StoreWebUI.Controllers
             _orderBL = orderBL;
             _userManager = userManager;
         }
+
         // GET: LocationController
         public ActionResult Index()
         {
@@ -51,7 +52,7 @@ namespace StoreWebUI.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     _locationBL.AddNewLocation(new Location
                     {
@@ -82,7 +83,7 @@ namespace StoreWebUI.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     _locationBL.UpdateLocation(new Location
                     {
@@ -128,7 +129,7 @@ namespace StoreWebUI.Controllers
                 return View();
             }
         }
-        
+
         // GET: LocationController/Inventory/5
         public ActionResult Inventory(int id)
         {
@@ -151,14 +152,14 @@ namespace StoreWebUI.Controllers
             newInventory.ProductOptions = new List<SelectListItem>();
 
             //then, grab all products so we can fill out the select by looping over the products and inserting it to the product options list
-            List <Product> allProducts= _productBL.GetAllProducts();
-            foreach(Product prod in allProducts)
+            List<Product> allProducts = _productBL.GetAllProducts();
+            foreach (Product prod in allProducts)
             {
                 //Only add it to the option if it's not already in the inventory
                 int alreadyExists = currentInventoryProductId.FindIndex(id => id == prod.Id);
                 if (alreadyExists == -1)
-                    {
-                        SelectListItem listItem = new SelectListItem
+                {
+                    SelectListItem listItem = new SelectListItem
                     {
                         Text = prod.Name,
                         Value = prod.Id.ToString()
@@ -179,7 +180,8 @@ namespace StoreWebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _locationBL.AddInventory(new Inventory {
+                    _locationBL.AddInventory(new Inventory
+                    {
                         ProductId = inventoryVM.ProductId,
                         LocationId = id,
                         Quantity = inventoryVM.Quantity
@@ -220,13 +222,14 @@ namespace StoreWebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _locationBL.UpdateInventoryItem(new Inventory {
+                    _locationBL.UpdateInventoryItem(new Inventory
+                    {
                         Id = inventoryVM.Id,
                         ProductId = inventoryVM.ProductId,
                         LocationId = inventoryVM.LocationId,
                         Quantity = inventoryVM.Quantity
                     });
-                    return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId});
+                    return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId });
                 }
                 return UpdateInventory(id);
             }
@@ -276,7 +279,6 @@ namespace StoreWebUI.Controllers
         /// <param name="id">location Id</param>
         /// <returns>view with list of orders</returns>
         [Authorize(Roles = "Admin")]
-
         public async Task<ActionResult> OrderHistory(int id, string sortOrder)
         {
             //set sort order. Default, date ascending
@@ -288,7 +290,7 @@ namespace StoreWebUI.Controllers
             //grab the orders
             List<Order> orders = _orderBL.GetOrdersByLocationId(id);
             List<OrderVM> orderVMs = new List<OrderVM>();
-            foreach(Order ord in orders)
+            foreach (Order ord in orders)
             {
                 //only display closed orders
                 if (!ord.Closed) break;
@@ -305,12 +307,15 @@ namespace StoreWebUI.Controllers
                 case "Price":
                     orderVMs = orderVMs.OrderBy(s => s.Total).ToList();
                     break;
+
                 case "price_desc":
                     orderVMs = orderVMs.OrderByDescending(s => s.Total).ToList();
                     break;
+
                 case "date_desc":
                     orderVMs = orderVMs.OrderByDescending(s => s.DateCreated).ToList();
                     break;
+
                 default:
                     orderVMs = orderVMs.OrderBy(s => s.DateCreated).ToList();
                     break;

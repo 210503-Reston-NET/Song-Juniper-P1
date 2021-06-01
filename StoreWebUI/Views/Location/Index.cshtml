@@ -6,7 +6,7 @@
 <h1>List of Stores</h1>
 
 <p>
-    @if(User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin"))
     {
         <a asp-action="Create">Create a New Store</a>
     }
@@ -26,29 +26,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            @if (User.IsInRole("Admin"))
-            {
+            <tr>
                 <td>
-                    @Html.ActionLink("Inventory", "Inventory", new { id = item.Id }) <span>|</span>
-                    @Html.ActionLink("Order History", "OrderHistory", new { id = item.Id }) <span>|</span>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <span>|</span>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
-            }
-            else
-            {
                 <td>
-                    @Html.ActionLink("Shop This Store", "Inventory", new { id = item.Id })
+                    @Html.DisplayFor(modelItem => item.Address)
                 </td>
-            }
-        </tr>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Inventory", "Inventory", new { id = item.Id }) <span>|</span>
+                        @Html.ActionLink("Order History", "OrderHistory", new { id = item.Id }) <span>|</span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <span>|</span>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Shop This Store", "Inventory", new { id = item.Id })
+                    </td>
+                }
+            </tr>
         }
-</tbody>
+    </tbody>
 </table>

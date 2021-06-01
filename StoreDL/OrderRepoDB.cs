@@ -9,12 +9,14 @@ namespace StoreDL
     public class OrderRepoDB : IOrderRepo
     {
         private readonly WssDBContext _context;
+
         public OrderRepoDB(WssDBContext context)
         {
             _context = context;
         }
 
-        public List<Order> GetOrdersByCustomerAndLocation(Guid userId, int locationId) {
+        public List<Order> GetOrdersByCustomerAndLocation(Guid userId, int locationId)
+        {
             return _context.Orders
             .AsNoTracking()
             .Where(order => order.UserId.Equals(userId) && order.LocationId == locationId)
@@ -51,6 +53,7 @@ namespace StoreDL
             .Select(item => item)
             .ToList();
         }
+
         /// <summary>
         /// Creates a new line item object
         /// </summary>
@@ -63,6 +66,7 @@ namespace StoreDL
             _context.ChangeTracker.Clear();
             return added;
         }
+
         /// <summary>
         /// Updates an existing line item object
         /// </summary>

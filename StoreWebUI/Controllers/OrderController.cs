@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StoreBL;
@@ -26,7 +25,7 @@ namespace StoreWebUI.Controllers
 
         public Order GetOpenOrder(int locationId, Guid userId)
         {
-            //then, get the order with closed: false property associated to the current user's id and the location's id
+            //get the order with closed: false property associated to the current user's id and the location's id
             Order openOrder = _orderBL.GetOpenOrder(userId, locationId);
             //if there is no such order, create a new one and persist it to the db
             if (openOrder is null)
@@ -79,7 +78,7 @@ namespace StoreWebUI.Controllers
             //change the dateCreated to now and change the status to closed
             order.DateCreated = DateTime.Now;
             order.Closed = true;
-            
+
             //fetch the lineItems and attach them to the order
             List<LineItem> orderLineItems = _orderBL.GetLineItemsByOrderId(order.Id);
             order.LineItems = orderLineItems;
@@ -90,7 +89,7 @@ namespace StoreWebUI.Controllers
             //get store inventory so we can subtract the sold items
             List<Inventory> locationInventory = _locationBL.GetLocationInventory(order.LocationId);
             //loop through each line item, find it in the inventory, and update the inventory quantity
-            foreach(LineItem lineItem in orderLineItems)
+            foreach (LineItem lineItem in orderLineItems)
             {
                 Inventory toModify = locationInventory.Find(inventory => inventory.ProductId == lineItem.ProductId);
                 toModify.Quantity -= lineItem.Quantity;
@@ -120,7 +119,7 @@ namespace StoreWebUI.Controllers
 
             //and see if the item we're trying to add is already in the "cart"
             LineItem item = openOrder.LineItems.Find(item => item.Product.Id == inventoryItem.ProductId);
-            if(item is null)
+            if (item is null)
             {
                 //if we didn't find it, then initialize it from the inventory item.
                 item = new LineItem();
@@ -147,7 +146,7 @@ namespace StoreWebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if(lineItem.Id != 0)
+                    if (lineItem.Id != 0)
                     {
                         //this item is already in the order, just update the quantity
                         _orderBL.UpdateLineItem(lineItem);
@@ -156,7 +155,7 @@ namespace StoreWebUI.Controllers
                     {
                         _orderBL.CreateLineItem(lineItem);
                     }
-                    return RedirectToAction(nameof(Inventory), "Location", new { id = _orderBL.GetOrderById(lineItem.OrderId).LocationId});
+                    return RedirectToAction(nameof(Inventory), "Location", new { id = _orderBL.GetOrderById(lineItem.OrderId).LocationId });
                 }
                 return AddToCart(inventoryId);
             }
@@ -195,19 +194,20 @@ namespace StoreWebUI.Controllers
                 case "Price":
                     orderVMs = orderVMs.OrderBy(s => s.Total).ToList();
                     break;
+
                 case "price_desc":
                     orderVMs = orderVMs.OrderByDescending(s => s.Total).ToList();
                     break;
+
                 case "date_desc":
                     orderVMs = orderVMs.OrderByDescending(s => s.DateCreated).ToList();
                     break;
+
                 default:
                     orderVMs = orderVMs.OrderBy(s => s.DateCreated).ToList();
                     break;
             }
             return View(orderVMs);
         }
-
-
     }
 }

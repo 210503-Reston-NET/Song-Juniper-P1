@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using StoreModels;
 using StoreDL;
+using StoreModels;
 using Xunit;
 
 namespace StoreTests
@@ -13,6 +9,7 @@ namespace StoreTests
     public class ProductRepoTest
     {
         private readonly DbContextOptions<WssDBContext> options;
+
         public ProductRepoTest()
         {
             options = new DbContextOptionsBuilder<WssDBContext>().UseSqlite("Filename=Test.db").Options;

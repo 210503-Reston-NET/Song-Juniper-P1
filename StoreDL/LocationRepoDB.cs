@@ -8,6 +8,7 @@ namespace StoreDL
     public class LocationRepoDB : ILocationRepo
     {
         private readonly WssDBContext _context;
+
         public LocationRepoDB(WssDBContext context)
         {
             _context = context;
@@ -38,6 +39,7 @@ namespace StoreDL
             .FirstOrDefault(loc => loc.Id == id);
             return found;
         }
+
         /// <summary>
         /// Finds location by name
         /// </summary>
@@ -60,7 +62,7 @@ namespace StoreDL
         {
             Location locToAdd = _context.Locations
             .Add(loc).Entity;
-            
+
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             return locToAdd;
@@ -80,7 +82,7 @@ namespace StoreDL
         }
 
         /// <summary>
-        /// Removes a location 
+        /// Removes a location
         /// </summary>
         /// <param name="location">location object to be deleted</param>
         public void DeleteLocation(Location location)
@@ -104,7 +106,6 @@ namespace StoreDL
             .Select(
                 inventory => inventory
             ).ToList();
-
         }
 
         /// <summary>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using StoreBL;
 using StoreModels;
@@ -18,6 +14,7 @@ namespace StoreWebUI.Controllers
         {
             _productBL = productBL;
         }
+
         // GET: ProductController
         public ActionResult Index()
         {
@@ -40,7 +37,7 @@ namespace StoreWebUI.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     _productBL.AddNewProduct(new Product
                     {
@@ -82,7 +79,7 @@ namespace StoreWebUI.Controllers
                         Category = productVM.Category
                     });
                 }
-                 return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {

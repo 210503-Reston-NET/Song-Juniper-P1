@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +80,7 @@ namespace StoreWebUI.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if(Input.Name != user.Name)
+            if (Input.Name != user.Name)
             {
                 user.Name = Input.Name;
             }

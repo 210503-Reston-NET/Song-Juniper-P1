@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreModels", "StoreModels\StoreModels.csproj", "{276B1B82-2B31-4E76-AF6F-2ECF498FC85D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreTests", "StoreTests\StoreTests.csproj", "{17EDC388-D543-469F-8111-446BF5D46FDC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE} = {0CADAB8F-01EE-4CF8-BE6E-4984AF5760EE}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDL", "StoreDL\StoreDL.csproj", "{AA0750E2-A25A-48F7-9524-67F9154F1ADC}"
 EndProject

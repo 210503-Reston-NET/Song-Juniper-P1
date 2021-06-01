@@ -1,6 +1,6 @@
 using System;
-using Xunit;
 using StoreModels;
+using Xunit;
 
 namespace StoreTests
 {

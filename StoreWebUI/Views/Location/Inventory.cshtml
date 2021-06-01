@@ -34,28 +34,28 @@
     <tbody>
         @foreach (var item in Model.Inventories)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            @if (User.IsInRole("Admin"))
-            {
+            <tr>
                 <td>
-                    @Html.ActionLink("Update Quantity", "UpdateInventory", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "DeleteInventory", new { id = item.Id })
+                    @Html.DisplayFor(modelItem => item.Product.Name)
                 </td>
-            }
-            else
-            {
-                <td>@Html.ActionLink("Add To Cart", "AddToCart", "Order", new { id = item.Id })</td>
-            }
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Update Quantity", "UpdateInventory", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "DeleteInventory", new { id = item.Id })
+                    </td>
+                }
+                else
+                {
+                    <td>@Html.ActionLink("Add To Cart", "AddToCart", "Order", new { id = item.Id })</td>
+                }
+            </tr>
         }
     </tbody>
 </table>

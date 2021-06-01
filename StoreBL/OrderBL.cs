@@ -27,15 +27,17 @@ namespace StoreBL
         {
             return _repo.GetOpenOrder(userId, locationId);
         }
+
         /// <summary>
         /// calls the repo method for creating an order
         /// </summary>
         /// <param name="order">order object</param>
         /// <returns>created order</returns>
-        public Order CreateOrder (Order order)
+        public Order CreateOrder(Order order)
         {
             return _repo.CreateOrder(order);
         }
+
         /// <summary>
         /// calls the repo method for updating the order
         /// Mostly used for "placing" the order and marking it closed
@@ -46,6 +48,7 @@ namespace StoreBL
         {
             return _repo.UpdateOrder(order);
         }
+
         /// <summary>
         /// Find an order by order id
         /// </summary>
@@ -55,13 +58,14 @@ namespace StoreBL
         {
             return _repo.GetOrderById(id);
         }
+
         /// <summary>
         /// Getting order by customer and location id
         /// </summary>
         /// <param name="customerId">Customer.Id</param>
         /// <param name="locationId">Location.Id</param>
         /// <returns>list of all orders under one customer at a particular location</returns>
-        public List<Order> GetOrdersByCustomerAndLocation (Guid userId, int locationId)
+        public List<Order> GetOrdersByCustomerAndLocation(Guid userId, int locationId)
         {
             return _repo.GetOrdersByCustomerAndLocation(userId, locationId);
         }
@@ -71,10 +75,11 @@ namespace StoreBL
         /// </summary>
         /// <param name="customerId">Customer.Id</param>
         /// <returns>list of orders</returns>
-        public List<Order> GetOrdersByCustomerId (Guid userId)
+        public List<Order> GetOrdersByCustomerId(Guid userId)
         {
             return _repo.GetOrdersByCustomerId(userId);
         }
+
         /// <summary>
         /// Gets all line items associated to a particular order
         /// </summary>
@@ -84,6 +89,7 @@ namespace StoreBL
         {
             return _repo.GetLineItemsByOrderId(orderId);
         }
+
         /// <summary>
         /// Adds a new lineitem to the order
         /// </summary>
@@ -93,6 +99,7 @@ namespace StoreBL
         {
             return _repo.CreateLineItem(item);
         }
+
         /// <summary>
         /// Gets all orders associated to a particular location
         /// </summary>

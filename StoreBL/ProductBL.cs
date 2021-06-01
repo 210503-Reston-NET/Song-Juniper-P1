@@ -11,6 +11,7 @@ namespace StoreBL
     public class ProductBL : IProductBL
     {
         private readonly IProductRepo _repo;
+
         public ProductBL(IProductRepo repo)
         {
             _repo = repo;
@@ -23,12 +24,13 @@ namespace StoreBL
         /// <returns>created product</returns>
         public Product AddNewProduct(Product prod)
         {
-            if(FindProductByName(prod.Name) is not null)
-                {
-                    throw new Exception("There is already a product with the same name");
-                }
+            if (FindProductByName(prod.Name) is not null)
+            {
+                throw new Exception("There is already a product with the same name");
+            }
             return _repo.AddNewProduct(prod);
         }
+
         /// <summary>
         /// gets all product
         /// </summary>
@@ -37,6 +39,7 @@ namespace StoreBL
         {
             return _repo.GetAllProducts();
         }
+
         /// <summary>
         /// look for a product by name
         /// </summary>
@@ -46,6 +49,7 @@ namespace StoreBL
         {
             return _repo.GetProductByName(name);
         }
+
         /// <summary>
         /// look for a product by id
         /// </summary>

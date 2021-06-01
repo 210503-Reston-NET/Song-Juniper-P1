@@ -6,14 +6,17 @@ namespace StoreModels
     /// This class should contain all the fields and properties that define a store location.
     /// </summary>
     public class Location
-    {   
-        public Location() {}
+    {
+        public Location()
+        {
+        }
+
         public Location(string name, string address)
         {
             this.Name = name;
             this.Address = address;
         }
-        
+
         public Location(int id, string name, string address) : this(name, address)
         {
             this.Id = id;
