@@ -1,0 +1,68 @@
+﻿@model IEnumerable<OrderVM>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Order History</h1>
+<h3>@ViewBag.CurrentUser.Name</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-sortOrder="@ViewBag.DateSortParm">
+                    Order Date
+                </a>
+            </th>
+            <th>
+                Store @Html.DisplayNameFor(model => model.OrderLocation.Name)
+            </th>
+            <th>
+                Item Name
+            </th>
+            <th>
+                Item Price
+            </th>
+            <th>
+                Item Quantity
+            </th>
+            <th>
+                <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-sortOrder="@ViewBag.PriceSortParm">
+                    @Html.DisplayNameFor(model => model.Total)
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderItem in Model)
+        {
+            <tr>
+                <td>@orderItem.DateCreated</td>
+                <td>@orderItem.OrderLocation.Name</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @foreach (var lineItem in orderItem.LineItems)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>@lineItem.Product.Name</td>
+                    <td>@lineItem.Product.Price</td>
+                    <td>@lineItem.Quantity</td>
+                    <td></td>
+
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@orderItem.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>

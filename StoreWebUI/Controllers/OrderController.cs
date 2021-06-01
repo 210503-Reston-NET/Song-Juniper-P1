@@ -166,6 +166,48 @@ namespace StoreWebUI.Controllers
             }
         }
 
+        public async Task<ActionResult> UserOrderHistory(string sortOrder)
+        {
+            //set sort order. Default, date ascending
+            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
+            ViewBag.PriceSortParm = sortOrder == "Price" ? "price_desc" : "Price";
+
+            User currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            ViewBag.currentUser = currentUser;
+
+            //grab the orders
+            List<Order> orders = _orderBL.GetOrdersByCustomerId(currentUser.Id);
+            List<OrderVM> orderVMs = new List<OrderVM>();
+            foreach (Order ord in orders)
+            {
+                //only display closed orders
+                if (!ord.Closed) break;
+
+                //initialize new orderVM and get all other necessary infos
+                OrderVM ordVM = new OrderVM(ord);
+                ordVM.OrderLocation = _locationBL.FindLocationByID(ord.LocationId);
+                ordVM.LineItems = _orderBL.GetLineItemsByOrderId(ord.Id);
+                orderVMs.Add(ordVM);
+            }
+
+            switch (sortOrder)
+            {
+                case "Price":
+                    orderVMs = orderVMs.OrderBy(s => s.Total).ToList();
+                    break;
+                case "price_desc":
+                    orderVMs = orderVMs.OrderByDescending(s => s.Total).ToList();
+                    break;
+                case "date_desc":
+                    orderVMs = orderVMs.OrderByDescending(s => s.DateCreated).ToList();
+                    break;
+                default:
+                    orderVMs = orderVMs.OrderBy(s => s.DateCreated).ToList();
+                    break;
+            }
+            return View(orderVMs);
+        }
+
 
     }
 }
