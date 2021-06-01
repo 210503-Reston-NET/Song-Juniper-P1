@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace StoreTests
 {
-    public class LocationControllerTest
+    public class ControllerTest
     {
         [Fact]
         public void LocationControllerIndexShouldReturnLocations()
@@ -43,6 +43,73 @@ namespace StoreTests
             var model = Assert.IsAssignableFrom<IEnumerable<LocationVM>>(viewResult.ViewData.Model);
             //Check that we're getting the same amount of restaurants that we're returning
             Assert.Equal(2, model.Count());
+        }
+        [Fact]
+        public void OrderControllerGetOpenOrderShouldReturnOpenOrder()
+        {
+            //Arrange
+            Guid userId = Guid.NewGuid();
+            int locationId = 1;
+            DateTime now = DateTime.Now;
+            Order mockOrder = new Order();
+            var mockOrderBL = new Mock<IOrderBL>();
+            mockOrderBL.Setup(x => x.CreateOrder(mockOrder)).Returns(
+                new Order
+                {
+                    Id = 1,
+                    LocationId = locationId,
+                    UserId = userId,
+                    Closed = false,
+                    DateCreated = now
+                }
+            );
+            mockOrderBL.Setup(x => x.GetOpenOrder(userId, locationId)).Returns
+            (
+                new Order
+                {
+                    Id = 1,
+                    LocationId = locationId,
+                    UserId = userId,
+                    Closed = false,
+                    DateCreated = now
+                }
+            );
+            mockOrderBL.Setup(x => x.GetLineItemsByOrderId(1)).Returns
+            (
+                new List<LineItem>()
+                {
+                    new LineItem
+                    {
+                        Product = new Product("one", "desc", 3m, "cat"),
+                        OrderId = 1,
+                        ProductId = 1,
+                        Quantity = 3
+                    },
+                    new LineItem
+                    {
+                        Product = new Product("one", "desc", 3m, "cat"),
+                        OrderId = 1,
+                        ProductId = 1,
+                        Quantity = 3
+                    }
+                }
+            );
+            var mockLocationBL = new Mock<ILocationBL>();
+            var mockUserManager = TestUserManager<User>();
+            var controller = new OrderController(mockUserManager, mockOrderBL.Object, mockLocationBL.Object);
+
+            //Act
+            var result = controller.GetOpenOrder(locationId, userId);
+
+            //Assert
+            //Are we getting an Order type object?
+            Assert.IsType<Order>(result);
+            //make sure the order is the order we want
+            Assert.False(result.Closed);
+            Assert.Equal(userId, result.UserId);
+            Assert.Equal(locationId, result.LocationId);
+            Assert.Equal(now, result.DateCreated);
+            Assert.Equal(18m, result.Total);
         }
 
         public static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store = null) where TUser : class
