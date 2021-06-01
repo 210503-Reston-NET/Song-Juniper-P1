@@ -99,7 +99,14 @@ namespace StoreDL
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             return added;
-            
+        }
+
+        public Order UpdateOrder(Order order)
+        {
+            Order updated = _context.Orders.Update(order).Entity;
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return updated;
         }
     }
 }

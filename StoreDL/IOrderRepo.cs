@@ -18,6 +18,7 @@ namespace StoreDL
         public Order GetOpenOrder(Guid userId, int locationId);
         public Order GetOrderById(int orderId);
         public Order CreateOrder(Order order);
+        public Order UpdateOrder(Order order);
         public LineItem UpdateLineItem(LineItem item);
     }
 }

@@ -37,6 +37,16 @@ namespace StoreBL
             return _repo.CreateOrder(order);
         }
         /// <summary>
+        /// calls the repo method for updating the order
+        /// Mostly used for "placing" the order and marking it closed
+        /// </summary>
+        /// <param name="order">order object to be updated</param>
+        /// <returns>updated order object</returns>
+        public Order UpdateOrder(Order order)
+        {
+            return _repo.UpdateOrder(order);
+        }
+        /// <summary>
         /// Find an order by order id
         /// </summary>
         /// <param name="id">order id for look up</param>
