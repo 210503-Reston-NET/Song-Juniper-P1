@@ -35,6 +35,7 @@
     <ProjectReference Include="..\StoreBL\StoreBL.csproj" />
     <ProjectReference Include="..\StoreModels\StoreModels.csproj" />
     <ProjectReference Include="..\StoreDL\StoreDL.csproj" />
+    <ProjectReference Include="..\StoreWebUI\StoreWebUI.csproj" />
   </ItemGroup>
 
 </Project>
