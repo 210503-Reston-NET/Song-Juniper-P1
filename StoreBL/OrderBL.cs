@@ -37,6 +37,15 @@ namespace StoreBL
             return _repo.CreateOrder(order);
         }
         /// <summary>
+        /// Find an order by order id
+        /// </summary>
+        /// <param name="id">order id for look up</param>
+        /// <returns>found order</returns>
+        public Order GetOrderById(int id)
+        {
+            return _repo.GetOrderById(id);
+        }
+        /// <summary>
         /// Getting order by customer and location id
         /// </summary>
         /// <param name="customerId">Customer.Id</param>
@@ -82,6 +91,16 @@ namespace StoreBL
         public List<Order> GetOrdersByLocationId(int locationId)
         {
             return _repo.GetOrdersByLocationId(locationId);
+        }
+
+        /// <summary>
+        /// Updates the already existing line item
+        /// </summary>
+        /// <param name="item">line item to be updated</param>
+        /// <returns>updated line item</returns>
+        public LineItem UpdateLineItem(LineItem item)
+        {
+            return _repo.UpdateLineItem(item);
         }
     }
 }

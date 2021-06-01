@@ -51,13 +51,29 @@ namespace StoreDL
             .Select(item => item)
             .ToList();
         }
-
+        /// <summary>
+        /// Creates a new line item object
+        /// </summary>
+        /// <param name="item">line item to be created</param>
+        /// <returns>created line item</returns>
         public LineItem CreateLineItem(LineItem item)
         {
-            _context.LineItems.Add(item);
+            LineItem added = _context.LineItems.Add(item).Entity;
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
-            return item;
+            return added;
+        }
+        /// <summary>
+        /// Updates an existing line item object
+        /// </summary>
+        /// <param name="item">line item object to be updated</param>
+        /// <returns>updated line item object</returns>
+        public LineItem UpdateLineItem(LineItem item)
+        {
+            LineItem updated = _context.LineItems.Update(item).Entity;
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return updated;
         }
 
         public Order GetOpenOrder(Guid userId, int locationId)
