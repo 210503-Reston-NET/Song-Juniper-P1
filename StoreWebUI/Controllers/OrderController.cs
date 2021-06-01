@@ -65,6 +65,26 @@ namespace StoreWebUI.Controllers
         }
 
         /// <summary>
+        /// Places order
+        /// </summary>
+        /// <param name="id">Location ID</param>
+        /// <param name="order">Order Object to be "placed"</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PlaceOrder(int id, Order order)
+        {
+            //first, fetch it from the db
+            Order orderToPlace = _orderBL.GetOrderById(order.Id);
+            //then, change the dateCreated to now and change the status to closed
+            orderToPlace.DateCreated = DateTime.Now;
+            orderToPlace.Closed = true;
+
+            _orderBL.UpdateOrder(order);
+            return View();
+        }
+
+        /// <summary>
         /// GET: LocationController/AddToCart/5
         /// Display Page to add products to the customer's cart
         /// </summary>
@@ -130,61 +150,6 @@ namespace StoreWebUI.Controllers
             }
         }
 
-        // POST: CartController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: CartController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CartController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CartController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CartController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
