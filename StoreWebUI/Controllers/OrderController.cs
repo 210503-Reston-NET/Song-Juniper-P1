@@ -39,6 +39,8 @@ namespace StoreWebUI.Controllers
             }
             //Also get all lineItems associated to this order
             openOrder.LineItems = _orderBL.GetLineItemsByOrderId(openOrder.Id) ?? new List<LineItem>();
+            //And calculate total
+            openOrder.UpdateTotal();
             return openOrder;
         }
 
@@ -74,14 +76,28 @@ namespace StoreWebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult PlaceOrder(int id, Order order)
         {
-            //first, fetch it from the db
-            Order orderToPlace = _orderBL.GetOrderById(order.Id);
-            //then, change the dateCreated to now and change the status to closed
-            orderToPlace.DateCreated = DateTime.Now;
-            orderToPlace.Closed = true;
+            //change the dateCreated to now and change the status to closed
+            order.DateCreated = DateTime.Now;
+            order.Closed = true;
+            
+            //fetch the lineItems and attach them to the order
+            List<LineItem> orderLineItems = _orderBL.GetLineItemsByOrderId(order.Id);
+            order.LineItems = orderLineItems;
 
-            _orderBL.UpdateOrder(order);
-            return View();
+            //place it!
+            order = _orderBL.UpdateOrder(order);
+
+            //get store inventory so we can subtract the sold items
+            List<Inventory> locationInventory = _locationBL.GetLocationInventory(order.LocationId);
+            //loop through each line item, find it in the inventory, and update the inventory quantity
+            foreach(LineItem lineItem in orderLineItems)
+            {
+                Inventory toModify = locationInventory.Find(inventory => inventory.ProductId == lineItem.ProductId);
+                toModify.Quantity -= lineItem.Quantity;
+                _locationBL.UpdateInventoryItem(toModify);
+            }
+            //tada!
+            return RedirectToAction(nameof(Index), "Location");
         }
 
         /// <summary>

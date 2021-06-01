@@ -30,7 +30,7 @@
         </dd>
     </dl>
 
-    <form asp-action="DeleteInventory">
+    <form asp-action="DeleteInventory" asp-controller="Location">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         @Html.ActionLink("Back To List", "Inventory", new { id = Model.LocationId })
     </form>
