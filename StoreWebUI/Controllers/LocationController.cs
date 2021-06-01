@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using StoreBL;
@@ -17,11 +18,13 @@ namespace StoreWebUI.Controllers
         private readonly ILocationBL _locationBL;
         private readonly IProductBL _productBL;
         private readonly IOrderBL _orderBL;
-        public LocationController(ILocationBL locationBL, IProductBL productBL, IOrderBL orderBL)
+        private readonly UserManager<User> _userManager;
+        public LocationController(ILocationBL locationBL, IProductBL productBL, IOrderBL orderBL, UserManager<User> userManager)
         {
             _locationBL = locationBL;
             _productBL = productBL;
             _orderBL = orderBL;
+            _userManager = userManager;
         }
         // GET: LocationController
         public ActionResult Index()
@@ -265,6 +268,34 @@ namespace StoreWebUI.Controllers
             {
                 return View(new InventoryVM(_locationBL.GetInventoryById(id)));
             }
+        }
+
+        /// <summary>
+        /// View all orders placed to This store
+        /// </summary>
+        /// <param name="id">location Id</param>
+        /// <returns>view with list of orders</returns>
+        [Authorize(Roles = "Admin")]
+
+        public async Task<ActionResult> OrderHistory(int id)
+        {
+            Location currentLocation = _locationBL.FindLocationByID(id);
+            ViewBag.CurrentLocation = currentLocation;
+            //grab the orders
+            List<Order> orders = _orderBL.GetOrdersByLocationId(id);
+            List<OrderVM> orderVMs = new List<OrderVM>();
+            foreach(Order ord in orders)
+            {
+                //only display closed orders
+                if (!ord.Closed) break;
+
+                //initialize new orderVM and get all other necessary infos
+                OrderVM ordVM = new OrderVM(ord);
+                ordVM.OrderUser = await _userManager.FindByIdAsync(ord.UserId.ToString());
+                ordVM.LineItems = _orderBL.GetLineItemsByOrderId(ord.Id);
+                orderVMs.Add(ordVM);
+            }
+            return View(orderVMs);
         }
     }
 }

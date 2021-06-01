@@ -1,0 +1,62 @@
+﻿@model IEnumerable<OrderVM>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Order History</h1>
+<h3>@ViewBag.CurrentLocation.Name</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderUser.Name)
+            </th>
+            <th>
+                Item Name
+            </th>
+            <th>
+                Item Price
+            </th>
+            <th>
+                Item Quantity
+            </th>
+            <th>@Html.DisplayNameFor(model => model.Total)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderItem in Model)
+        {
+        <tr>
+            <td>@orderItem.DateCreated</td>
+            <td>@orderItem.OrderUser.Name</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+            @foreach (var lineItem in orderItem.LineItems)
+            {
+            <tr>
+                <td></td>
+                <td></td>
+                <td>@lineItem.Product.Name</td>
+                <td>@lineItem.Product.Price</td>
+                <td>@lineItem.Quantity</td>
+                <td></td>
+
+            </tr>
+            }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@orderItem.Total</td>
+        </tr>
+        }
+    </tbody>
+</table>
