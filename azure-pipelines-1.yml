@@ -29,6 +29,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: '210503-Reston-NET_Song-Juniper-P1'
     projectName: 'Song-Juniper-P1'
+    extraProperties: 'sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml'  
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
@@ -40,11 +41,14 @@ steps:
     command: 'test'
     projects: '**/StoreTests/*.csproj'
     arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true "/p:CoverletOutputFormat=\"opencover,Cobertura\""'
+    publishTestResults: true
 
 - task: PublishCodeCoverageResults@1
+  displayName: Publish Code Coverage Report
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '**/coburtura/coverage.xml'
+    reportDirectory: '**/StoreTests/'
 - task: SonarCloudAnalyze@1
   displayName: Run Code Analysis
 - task: SonarCloudPublish@1
