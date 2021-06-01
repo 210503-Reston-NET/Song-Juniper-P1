@@ -46,8 +46,8 @@ steps:
   displayName: Publish Code Coverage Report
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '**/coburtura/coverage.xml'
-    reportDirectory: '**/StoreTests/'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/App/Tests/' 
 - task: SonarCloudAnalyze@1
   displayName: Run Code Analysis
 - task: SonarCloudPublish@1
