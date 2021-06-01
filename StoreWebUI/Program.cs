@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using StoreModels;
+using Serilog;
 
 namespace StoreWebUI
 {
@@ -16,25 +12,44 @@ namespace StoreWebUI
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
+            Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.File("../logs/logs.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+            try
             {
-                var serviceProvider = scope.ServiceProvider;
-                try
+                Log.Information("Starting up");
+                var host = CreateHostBuilder(args).UseSerilog().Build();
+                using (var scope = host.Services.CreateScope())
                 {
-                    var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+                    var serviceProvider = scope.ServiceProvider;
+                    try
+                    {
+                        var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
-                    var roleManager = serviceProvider.GetRequiredService<RoleManager<UserRole>>();
+                        var roleManager = serviceProvider.GetRequiredService<RoleManager<UserRole>>();
 
-                    SeedData(userManager, roleManager);
+                        SeedData(userManager, roleManager);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "Creating User Manager and Role Manager failed");
+                    }
                 }
-                catch
-                {
 
-                }
+                host.Run();
             }
-
-            host.Run();
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application start-up failed");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
