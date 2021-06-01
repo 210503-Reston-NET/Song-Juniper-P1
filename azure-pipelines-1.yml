@@ -14,14 +14,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-
-#Basic pipeline of restoring, building, and testing
-- task: DotNetCoreCLI@2
-  displayName: Restore project deps
-  inputs:
-    command: 'restore'
-    projects: $(solution)
-    feedsToUse: 'select'
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'Sonarcloud'
@@ -29,7 +21,14 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: '210503-Reston-NET_Song-Juniper-P1'
     projectName: 'Song-Juniper-P1'
-    extraProperties: 'sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml'  
+    extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml'
+#Basic pipeline of restoring, building, and testing
+- task: DotNetCoreCLI@2
+  displayName: Restore project deps
+  inputs:
+    command: 'restore'
+    projects: $(solution)
+    feedsToUse: 'select'
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
