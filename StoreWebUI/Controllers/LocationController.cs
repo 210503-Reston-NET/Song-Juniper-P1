@@ -208,9 +208,9 @@ namespace StoreWebUI.Controllers
                         LocationId = id,
                         Quantity = inventoryVM.Quantity
                     }); ;
+                    _logger.LogInformation("Add Inventory Success", inventoryVM);
                     return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId });
                 }
-                _logger.LogInformation("Add Inventory Success", inventoryVM);
                 return AddInventory(id);
             }
             catch (Exception ex)

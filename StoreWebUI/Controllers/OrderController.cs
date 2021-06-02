@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StoreBL;
 using StoreModels;
 using StoreWebUI.Models;
@@ -15,16 +16,19 @@ namespace StoreWebUI.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IOrderBL _orderBL;
         private readonly ILocationBL _locationBL;
+        private readonly ILogger<OrderController> _logger;
 
-        public OrderController(UserManager<User> userManager, IOrderBL orderBL, ILocationBL locationBL)
+        public OrderController(UserManager<User> userManager, IOrderBL orderBL, ILocationBL locationBL, ILogger<OrderController> logger)
         {
             _userManager = userManager;
             _orderBL = orderBL;
             _locationBL = locationBL;
+            _logger = logger;
         }
 
         public Order GetOpenOrder(int locationId, Guid userId)
         {
+            _logger.LogInformation("Getting the open order: LocationId, UserId: ", locationId, userId);
             //get the order with closed: false property associated to the current user's id and the location's id
             Order openOrder = _orderBL.GetOpenOrder(userId, locationId);
             //if there is no such order, create a new one and persist it to the db
@@ -51,6 +55,7 @@ namespace StoreWebUI.Controllers
         /// <returns></returns>
         public ActionResult Index(int id)
         {
+            _logger.LogInformation("Getting the cart view... Location Id: ", id);
             //first, get the current user's Guid
             string currentUserId = _userManager.GetUserId(User);
 
@@ -83,20 +88,37 @@ namespace StoreWebUI.Controllers
             List<LineItem> orderLineItems = _orderBL.GetLineItemsByOrderId(order.Id);
             order.LineItems = orderLineItems;
 
-            //place it!
-            order = _orderBL.UpdateOrder(order);
-
-            //get store inventory so we can subtract the sold items
-            List<Inventory> locationInventory = _locationBL.GetLocationInventory(order.LocationId);
-            //loop through each line item, find it in the inventory, and update the inventory quantity
-            foreach (LineItem lineItem in orderLineItems)
+            try
             {
-                Inventory toModify = locationInventory.Find(inventory => inventory.ProductId == lineItem.ProductId);
-                toModify.Quantity -= lineItem.Quantity;
-                _locationBL.UpdateInventoryItem(toModify);
+                _logger.LogInformation("Placing an order... ", order);
+                //place it!
+                order = _orderBL.UpdateOrder(order);
+                //get store inventory so we can subtract the sold items
+                List<Inventory> locationInventory = _locationBL.GetLocationInventory(order.LocationId);
+                //loop through each line item, find it in the inventory, and update the inventory quantity
+                foreach (LineItem lineItem in orderLineItems)
+                {
+                    Inventory toModify = locationInventory.Find(inventory => inventory.ProductId == lineItem.ProductId);
+                    toModify.Quantity -= lineItem.Quantity;
+                    try
+                    {
+                        _logger.LogInformation("Updating inventory items", toModify);
+                        _locationBL.UpdateInventoryItem(toModify);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to update inventory quantity after the order");
+                    }
+                }
+                _logger.LogInformation("Order successfully placed!", order);
+                //tada!
+                return RedirectToAction(nameof(Index), "Location");
             }
-            //tada!
-            return RedirectToAction(nameof(Index), "Location");
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Placing order failed");
+            }
+            return Index(id);
         }
 
         /// <summary>
@@ -142,25 +164,29 @@ namespace StoreWebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddToCart(int inventoryId, LineItem lineItem)
         {
+            _logger.LogInformation("Adding line item to cart");
             try
             {
                 if (ModelState.IsValid)
                 {
                     if (lineItem.Id != 0)
                     {
+                        _logger.LogInformation("Item already exists in the order. Updating the quantity", lineItem);
                         //this item is already in the order, just update the quantity
                         _orderBL.UpdateLineItem(lineItem);
                     }
                     else
                     {
+                        _logger.LogInformation("Creating new line item for this order", lineItem);
                         _orderBL.CreateLineItem(lineItem);
                     }
                     return RedirectToAction(nameof(Inventory), "Location", new { id = _orderBL.GetOrderById(lineItem.OrderId).LocationId });
                 }
                 return AddToCart(inventoryId);
             }
-            catch
+            catch(Exception ex)
             {
+                _logger.LogError(ex, "Failed to add lineitem to the cart");
                 return AddToCart(inventoryId);
             }
         }
