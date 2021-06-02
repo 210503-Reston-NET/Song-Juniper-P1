@@ -101,15 +101,18 @@ namespace StoreWebUI.Controllers
                 foreach (LineItem lineItem in orderLineItems)
                 {
                     Inventory toModify = locationInventory.Find(inventory => inventory.ProductId == lineItem.ProductId);
-                    toModify.Quantity -= lineItem.Quantity;
-                    try
+                    if (toModify is not null)
                     {
-                        _logger.LogInformation("Updating inventory items", toModify);
-                        _locationBL.UpdateInventoryItem(toModify);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Failed to update inventory quantity after the order");
+                        toModify.Quantity -= lineItem.Quantity;
+                        try
+                        {
+                            _logger.LogInformation("Updating inventory items", toModify);
+                            _locationBL.UpdateInventoryItem(toModify);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Failed to update inventory quantity after the order");
+                        }
                     }
                 }
                 _logger.LogInformation("Order successfully placed!", order);
@@ -175,12 +178,23 @@ namespace StoreWebUI.Controllers
                     {
                         _logger.LogInformation("Item already exists in the order. Updating the quantity", lineItem);
                         //this item is already in the order, just update the quantity
-                        _orderBL.UpdateLineItem(lineItem);
+                        _orderBL.UpdateLineItem(new LineItem
+                        {
+                            Id = lineItem.Id,
+                            ProductId = lineItem.ProductId,
+                            OrderId = lineItem.OrderId,
+                            Quantity = lineItem.Quantity
+                        });
                     }
                     else
                     {
                         _logger.LogInformation("Creating new line item for this order", lineItem);
-                        _orderBL.CreateLineItem(lineItem);
+                        _orderBL.CreateLineItem(new LineItem {
+                            Id = lineItem.Id,
+                            ProductId = lineItem.ProductId,
+                            OrderId = lineItem.OrderId,
+                            Quantity = lineItem.Quantity
+                        });
                     }
                     return RedirectToAction(nameof(Inventory), "Location", new { id = _orderBL.GetOrderById(lineItem.OrderId).LocationId });
                 }
