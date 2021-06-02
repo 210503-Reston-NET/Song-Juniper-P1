@@ -63,7 +63,7 @@ namespace StoreWebUI
         {
             if (!roleManager.RoleExistsAsync("Admin").Result)
             {
-                UserRole adminRole = new UserRole();
+                UserRole adminRole = new();
                 adminRole.Id = Guid.NewGuid();
                 adminRole.Name = "Admin";
                 adminRole.NormalizedName = "ADMIN";
@@ -72,7 +72,7 @@ namespace StoreWebUI
             }
             if (userManager.FindByNameAsync("auryn@isadmin.com").Result == null)
             {
-                User appUser = new User();
+                User appUser = new();
                 appUser.Id = Guid.NewGuid();
                 appUser.Email = "auryn@isadmin.com";
                 appUser.NormalizedEmail = "AURYN@ISADMIN.COM";
