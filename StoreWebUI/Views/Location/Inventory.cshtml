@@ -6,8 +6,8 @@
 }
 @inject SignInManager<User> SignInManager
 
-<h1>@Html.DisplayFor(model => model.Name)'s Inventory</h1>
-<h3>Location: @Html.DisplayFor(model => model.Address)</h3>
+<h2>@Html.DisplayFor(model => model.Name)</h2>
+<p class="lead">Location: @Html.DisplayFor(model => model.Address)</p>
 <p>
     @if (User.IsInRole("Admin"))
     {
@@ -20,7 +20,7 @@
 </p>
 
 <table class="table">
-    <thead>
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Inventories[0].Product.Name)

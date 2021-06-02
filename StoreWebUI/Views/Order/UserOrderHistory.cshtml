@@ -3,10 +3,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Order History</h1>
-<h3>@ViewBag.CurrentUser.Name</h3>
+<h2>Order History</h2>
+<p class="lead">@ViewBag.CurrentUser.Name</p>
 <table class="table">
-    <thead>
+    <thead class="thead-light">
         <tr>
             <th>
                 <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-sortOrder="@ViewBag.DateSortParm">

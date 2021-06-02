@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>List of Stores</h1>
+<h2>Our Locations</h2>
 
 <p>
     @if (User.IsInRole("Admin"))
@@ -12,7 +12,7 @@
     }
 </p>
 <table class="table">
-    <thead>
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)

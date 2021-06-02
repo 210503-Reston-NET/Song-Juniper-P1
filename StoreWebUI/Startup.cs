@@ -24,7 +24,8 @@ namespace StoreWebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
 
             services.AddDbContext<WssDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("WssDB")));
             services.AddScoped<ILocationRepo, LocationRepoDB>();
@@ -47,6 +48,7 @@ namespace StoreWebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
             else
             {

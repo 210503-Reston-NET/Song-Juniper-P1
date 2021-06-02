@@ -4,33 +4,24 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete Inventory</h1>
-
-<h3>Are you sure you want to remove this item from the inventory?</h3>
+<h2>Delete Inventory</h2>
+<h4>Are you sure you want to remove this item from the inventory?</h4>
 <div>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-    </dl>
-
     <form asp-action="DeleteInventory" asp-controller="Location">
+        <div class="form-group">
+            <label asp-for="Product.Name" class="control-label"></label>
+            <input asp-for="Product.Name" readonly class="form-control-plaintext" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Product.Description" class="control-label"></label>
+            <textarea asp-for="Product.Description" readonly class="form-control-plaintext"></textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity" class="control-label"></label>
+            <input asp-for="Quantity" readonly class="form-control-plaintext" />
+        </div>
+
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         @Html.ActionLink("Back To List", "Inventory", new { id = Model.LocationId })
     </form>
