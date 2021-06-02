@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using StoreWebUI.Models;
 
 namespace StoreWebUI.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly UserManager<User> _userManager;

@@ -1,7 +1,10 @@
-﻿@model StoreWebUI.Models.LocationVM
+﻿@using Microsoft.AspNetCore.Identity
+@using StoreModels
+@model StoreWebUI.Models.LocationVM
 @{
     ViewData["Title"] = "Inventory";
 }
+@inject SignInManager<User> SignInManager
 
 <h1>@Html.DisplayFor(model => model.Name)'s Inventory</h1>
 <h3>Location: @Html.DisplayFor(model => model.Address)</h3>
@@ -10,7 +13,7 @@
     {
         @Html.ActionLink("Add Product To Inventory", "AddInventory", new { id = Model.Id })
     }
-    else
+    else if(SignInManager.IsSignedIn(User))
     {
         @Html.ActionLink("View Cart", "Index", "Order", new { id = Model.Id })
     }
@@ -51,7 +54,7 @@
                         @Html.ActionLink("Delete", "DeleteInventory", new { id = item.Id })
                     </td>
                 }
-                else
+                else if (SignInManager.IsSignedIn(User))
                 {
                     <td>@Html.ActionLink("Add To Cart", "AddToCart", "Order", new { id = item.Id })</td>
                 }
