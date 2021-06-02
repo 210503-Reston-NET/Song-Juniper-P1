@@ -10,14 +10,14 @@ namespace StoreTests
         public void NameShouldNotBeEmpty()
         {
             Product test = new Product();
-            Assert.Throws<Exception>(() => test.Name = "");
+            Assert.Throws<InvalidOperationException>(() => test.Name = "");
         }
 
         [Fact]
         public void PriceShouldNotBeNegative()
         {
             Product test = new Product();
-            Assert.Throws<Exception>(() => test.Price = -1);
+            Assert.Throws<InvalidOperationException>(() => test.Price = -1);
         }
     }
 }

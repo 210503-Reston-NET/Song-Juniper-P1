@@ -10,7 +10,7 @@ namespace StoreTests
         public void QuantityShouldNotBeNegative()
         {
             LineItem test = new LineItem();
-            Assert.Throws<Exception>(() => test.Quantity = -1);
+            Assert.Throws<InvalidOperationException>(() => test.Quantity = -1);
         }
 
         [Theory]
