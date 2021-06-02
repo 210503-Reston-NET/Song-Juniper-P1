@@ -12,5 +12,12 @@
     }
     <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
-    <li class="nav-item"><a class="nav-link" id="order-history" asp-action="UserOrderHistory" asp-controller="Order">Order History</a></li>
+    @if(User.IsInRole("Admin"))
+    {
+        <li class="nav-item"><a class="nav-link" id="manage-product" asp-controller="Product" asp-action="Index">Manage Products</a></li>
+    }
+    else 
+    { 
+        <li class="nav-item"><a class="nav-link" id="order-history" asp-action="UserOrderHistory" asp-controller="Order">Order History</a></li>
+    }
 </ul>
