@@ -98,7 +98,8 @@ namespace StoreTests
             );
             var mockLocationBL = new Mock<ILocationBL>();
             var mockUserManager = TestUserManager<User>();
-            var controller = new OrderController(mockUserManager, mockOrderBL.Object, mockLocationBL.Object);
+            var mockLogger = new Mock<ILogger<OrderController>>();
+            var controller = new OrderController(mockUserManager, mockOrderBL.Object, mockLocationBL.Object, mockLogger.Object);
 
             //Act
             var result = controller.GetOpenOrder(locationId, userId);
