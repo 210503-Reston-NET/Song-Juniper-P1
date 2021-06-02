@@ -52,11 +52,11 @@ namespace StoreBL
         /// <summary>
         /// Find an order by order id
         /// </summary>
-        /// <param name="id">order id for look up</param>
+        /// <param name="orderId">order id for look up</param>
         /// <returns>found order</returns>
-        public Order GetOrderById(int id)
+        public Order GetOrderById(int orderId)
         {
-            return _repo.GetOrderById(id);
+            return _repo.GetOrderById(orderId);
         }
 
         /// <summary>

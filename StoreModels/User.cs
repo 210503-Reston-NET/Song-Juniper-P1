@@ -17,11 +17,11 @@ namespace StoreModels
             {
                 if (value.Length == 0)
                 {
-                    throw new Exception("Name cannot be empty");
+                    throw new InvalidOperationException("Name cannot be empty");
                 }
                 if (!Regex.IsMatch(value, @"^[A-Za-z .-]+$"))
                 {
-                    throw new Exception("Name is not valid");
+                    throw new InvalidOperationException("Name is not valid");
                 }
                 _name = value;
             }

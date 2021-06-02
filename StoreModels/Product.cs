@@ -16,7 +16,7 @@ namespace StoreModels
             {
                 if (value.Length == 0)
                 {
-                    throw new Exception("Product Name cannot be empty");
+                    throw new InvalidOperationException("Product Name cannot be empty");
                 }
                 _name = value;
             }
@@ -31,7 +31,7 @@ namespace StoreModels
             {
                 if (value < 0)
                 {
-                    throw new Exception("Price cannot be negative");
+                    throw new InvalidOperationException("Price cannot be negative");
                 }
                 _price = value;
             }

@@ -39,7 +39,7 @@ namespace StoreModels
             {
                 if (value < 0)
                 {
-                    throw new Exception("Quantities cannot be negative");
+                    throw new InvalidOperationException("Quantities cannot be negative");
                 }
                 _quantity = value;
             }

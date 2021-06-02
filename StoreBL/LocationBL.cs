@@ -20,15 +20,15 @@ namespace StoreBL
         /// <summary>
         /// First tries to see if there is already a location with the same name. If not, calls repo method for creating a new location
         /// </summary>
-        /// <param name="newLoc">Location object</param>
+        /// <param name="location">Location object to be created</param>
         /// <returns>created location object</returns>
-        public Location AddNewLocation(Location newLoc)
+        public Location AddNewLocation(Location location)
         {
-            if (FindLocationByName(newLoc.Name) is not null)
+            if (FindLocationByName(location.Name) is not null)
             {
-                throw new Exception("There is already a location with the same name");
+                throw new InvalidOperationException("There is already a location with the same name");
             }
-            return _repo.AddNewLocation(newLoc);
+            return _repo.AddNewLocation(location);
         }
 
         /// <summary>
@@ -63,11 +63,11 @@ namespace StoreBL
         /// <summary>
         /// calls a repo method that gets all the inventory that is associated with the location id
         /// </summary>
-        /// <param name="id">int, location Id</param>
+        /// <param name="locId">int, location Id</param>
         /// <returns>list of inventory objects associated to the location</returns>
-        public List<Inventory> GetLocationInventory(int id)
+        public List<Inventory> GetLocationInventory(int locId)
         {
-            return _repo.GetLocationInventory(id);
+            return _repo.GetLocationInventory(locId);
         }
 
         /// <summary>

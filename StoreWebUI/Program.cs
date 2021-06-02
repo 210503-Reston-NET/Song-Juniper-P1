@@ -68,7 +68,7 @@ namespace StoreWebUI
                 adminRole.Name = "Admin";
                 adminRole.NormalizedName = "ADMIN";
                 adminRole.ConcurrencyStamp = Guid.NewGuid().ToString();
-                IdentityResult roleResult = roleManager.CreateAsync(adminRole).Result;
+                _ = roleManager.CreateAsync(adminRole).Result;
             }
             if (userManager.FindByNameAsync("auryn@isadmin.com").Result == null)
             {

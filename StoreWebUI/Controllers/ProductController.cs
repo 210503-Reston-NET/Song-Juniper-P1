@@ -12,8 +12,8 @@ namespace StoreWebUI.Controllers
     [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
-        private IProductBL _productBL;
-        private ILogger<ProductController> _logger;
+        private readonly IProductBL _productBL;
+        private readonly ILogger<ProductController> _logger;
 
         public ProductController(IProductBL productBL, ILogger<ProductController> logger)
         {

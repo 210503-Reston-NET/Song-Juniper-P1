@@ -21,23 +21,23 @@ namespace StoreDL
         public DbSet<LineItem> LineItems { get; set; }
         public DbSet<Order> Orders { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
 
-            modelBuilder.Entity<Location>()
+            builder.Entity<Location>()
                 .Property(location => location.Id)
                 .ValueGeneratedOnAdd();
-            modelBuilder.Entity<Product>()
+            builder.Entity<Product>()
                 .Property(product => product.Id)
                 .ValueGeneratedOnAdd();
-            modelBuilder.Entity<Inventory>()
+            builder.Entity<Inventory>()
                 .Property(inventory => inventory.Id)
                 .ValueGeneratedOnAdd();
-            modelBuilder.Entity<LineItem>()
+            builder.Entity<LineItem>()
                 .Property(lineItem => lineItem.Id)
                 .ValueGeneratedOnAdd();
-            modelBuilder.Entity<Order>()
+            builder.Entity<Order>()
                 .Property(order => order.Id)
                 .ValueGeneratedOnAdd();
         }

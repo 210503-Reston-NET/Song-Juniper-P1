@@ -16,6 +16,7 @@ namespace StoreWebUI.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Home Controller, Index");
             return View();
         }
 

@@ -56,12 +56,12 @@ namespace StoreDL
         /// <summary>
         /// Creates new location
         /// </summary>
-        /// <param name="loc">New Location object to be added</param>
+        /// <param name="location">New Location object to be added</param>
         /// <returns>created location</returns>
-        public Location AddNewLocation(Location loc)
+        public Location AddNewLocation(Location location)
         {
             Location locToAdd = _context.Locations
-            .Add(loc).Entity;
+            .Add(location).Entity;
 
             _context.SaveChanges();
             _context.ChangeTracker.Clear();

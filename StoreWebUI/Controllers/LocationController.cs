@@ -101,7 +101,7 @@ namespace StoreWebUI.Controllers
                         Id = locationVM.Id,
                         Name = locationVM.Name,
                         Address = locationVM.Address
-                    }); ;
+                    });
                     return RedirectToAction(nameof(Index));
                 }
                 return View();
@@ -207,7 +207,7 @@ namespace StoreWebUI.Controllers
                         ProductId = inventoryVM.ProductId,
                         LocationId = id,
                         Quantity = inventoryVM.Quantity
-                    }); ;
+                    });
                     _logger.LogInformation("Add Inventory Success", inventoryVM);
                     return RedirectToAction(nameof(Inventory), new { id = inventoryVM.LocationId });
                 }

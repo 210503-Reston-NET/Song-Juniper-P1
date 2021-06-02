@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace StoreModels
 {
@@ -47,12 +48,12 @@ namespace StoreModels
 
         public override string ToString()
         {
-            string ItemString = "";
+            StringBuilder ItemString = new StringBuilder();
             foreach (LineItem item in this.LineItems)
             {
-                ItemString += "\n" + item.ToString();
+                ItemString.Append('\n').Append(item.ToString());
             }
-            return $"Date Created: {this.DateCreated.ToString("D")} \nItems: {ItemString} \nTotal: {this.Total}";
+            return $"Date Created: {this.DateCreated.ToString("D")} \nItems: {ItemString.ToString()} \nTotal: {this.Total}";
         }
 
         public void UpdateTotal()

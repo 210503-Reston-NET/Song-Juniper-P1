@@ -20,15 +20,15 @@ namespace StoreBL
         /// <summary>
         /// create a new product, checks for name duplication before proceeding
         /// </summary>
-        /// <param name="prod">product object</param>
+        /// <param name="product">product object</param>
         /// <returns>created product</returns>
-        public Product AddNewProduct(Product prod)
+        public Product AddNewProduct(Product product)
         {
-            if (FindProductByName(prod.Name) is not null)
+            if (FindProductByName(product.Name) is not null)
             {
-                throw new Exception("There is already a product with the same name");
+                throw new InvalidOperationException("There is already a product with the same name");
             }
-            return _repo.AddNewProduct(prod);
+            return _repo.AddNewProduct(product);
         }
 
         /// <summary>
