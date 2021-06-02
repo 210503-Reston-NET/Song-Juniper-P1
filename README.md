@@ -19,6 +19,7 @@ Wild Side Story got an UI makeover!
 - Create/Edit/Delete Products
 - Stock stores with products
 - Replenish Inventory
+- Remove products from store's inventory
 - View order history of stores
 
 ## Tech Stack
